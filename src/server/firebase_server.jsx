@@ -47,6 +47,12 @@ export async function addNewItem(db, name,price, desc, image, id) {
         id:id
       });
   }
+  export async function getAPIKey(db){
+    const citiesCol = collection(db, 'telegram_token');
+    const citySnapshot = await getDocs(citiesCol);
+    const cityList = citySnapshot.docs.map(doc => doc.data());
+    return cityList;
+  }
   export async function addNewProm(db,new_name,new_date,new_desc, base64String, new_id){
     await setDoc(doc(db, "promotions", 'prom_id=' + new_id), {
         name: new_name,

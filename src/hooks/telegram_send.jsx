@@ -1,9 +1,27 @@
 import { TelegramClient } from "messaging-api-telegram";
+import { getAPIKey } from "../server/firebase_server";
+import { firebaseConfig } from "../server/firebase_server";
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore/lite";
+import {useState} from 'react'
 window.Buffer = window.Buffer || require("buffer").Buffer;
-
 export default function SendMessageToTG(formData) {
+  const [key, setKey] = useState('')
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  getAPIKey(db)
+  .then((res)=>{
+    const key = res
+    console.log(key)
+    setKey(key[0].key)
+  })
+  .catch((err)=>{
+    console.log(err)
+  })
+
+
   const client = new TelegramClient({
-    accessToken: "6315442051:AAGFVYYo_N_RG7ytaGqcbY7y90Acw05FxWY",
+    accessToken: key,
   });
 
   client.getWebhookInfo().catch((error) => {
