@@ -15,7 +15,7 @@ export default function SendMessageToTG(formData) {
   getAPIKey(db)
   .then((res)=>{
     const key = res
-    console.log(key)
+    // console.log(key)
     setKey(key[0].key)
   })
   .catch((err)=>{
