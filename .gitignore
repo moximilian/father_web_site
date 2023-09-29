@@ -2,7 +2,7 @@
 
 # dependencies
 /node_modules
-package.json
+# package.json
 /.pnp
 .pnp.js
 
@@ -10,8 +10,9 @@ package.json
 /coverage
 
 # production
-/build
-
+# /build
+#  /src
+ /public
 # misc
 .DS_Store
 .env.local
