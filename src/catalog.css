@@ -1,0 +1,132 @@
+.item_container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+.product {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: calc(16.25vw - 45px);
+    height: 500px;
+    justify-content: space-evenly;
+    padding: 15px;
+
+}
+.catalog-image {
+    width: 500px;
+
+    max-width: calc(16.25vw - 45px);
+    height: 450px;
+    object-fit: scale-down;
+}
+
+@media screen and (max-width: 940px) {
+    .item_container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+
+    .product {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+        height: 400px;
+        justify-content: space-evenly;
+        padding: 15px;
+    }
+    .catalog-image {
+
+        max-width: 100%;
+        height: 450px;
+        object-fit: scale-down;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .item_container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .product {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        padding: 15px;
+    }
+    .catalog-image {
+        width: 500px;
+        height: 250px;
+        object-fit: scale-down;
+    }
+}
+
+@media screen and (max-width: 520px) {
+    .item_container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+}
+
+@media screen and (max-width: 520px) {
+    .product {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        padding: 15px;
+    }
+    .catalog-image {
+        width: 100%;
+        height:250px;
+    }
+}
+
+
+
+
+
+.btn-product {
+    padding: 10px 20px;
+    background-color: #e3e5ed;
+    color: #000000;
+    border-radius: 10px;
+    text-decoration: none;
+    width: fit-content;
+    block-size: fit-content;
+    transition: 500ms;
+    border: none;
+
+}
+
+.btn-product:hover {
+    background-color: #e3e5edac;
+    transition: 500ms;
+}
+
+.pagination {
+    display: flex;
+    width: 50px;
+    flex-direction: row;
+    gap: 5px;
+    align-items: start;
+}
+
+.buttons_add_del {
+    display: flex;
+    flex-direction: row;
+    gap: 3px;
+    width: 100%;
+    align-items: center;
+}
+
+.small {
+    padding: 10px 18.5px;
+}

@@ -1,0 +1,35 @@
+.main-thing{
+    margin:85px 0 0 0;
+
+    padding: 3vh 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    height: calc(100% - 55px - 110px);
+    min-height: calc(100vh - 55px - 110px);
+    box-sizing: border-box;
+}
+.product-one{
+    padding-top:50px;
+    display: flex;
+    width:100%;
+    flex-direction: row;
+    gap:35px;
+}
+.product-texting{
+    display: flex;
+    flex-direction: column;
+}
+.get-back{
+    display: flex;
+    flex-direction: row;
+    width:150px;
+
+    text-align: center;
+    color:black;
+    font-weight: 500;
+}
+a{
+    text-decoration: none;
+}

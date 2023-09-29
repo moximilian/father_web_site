@@ -1,0 +1,175 @@
+.admin-body{
+    background-color: rgb(1, 1, 48);
+    color:white;
+    height: 100%;
+}
+.admin-body-login{
+    background-color: rgb(1, 1, 48);
+    color:white;
+    height: 100vh;
+}
+h2{
+    color:rgb(106, 176, 251);
+    text-decoration: underline;
+}
+.form_container_admin{
+    display: flex;
+    width:100vw;
+    justify-content:  center;
+    padding-top:65px;
+}
+.login_form{
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    width:375px;
+    text-align: center;
+}
+.login_admin_input{
+    height:25px;
+    border-radius: 10px;
+    border: 1px solid rgb(189, 189, 189);
+    outline: none;
+    color:white;
+    padding-left: 15px;
+    background-color: rgb(1, 1, 48);
+
+}
+.login_submit{
+    background-color: rgb(57, 57, 118);
+    border: 1px solid rgb(189, 189, 189);
+    outline: none;
+    color:white;
+    height:25px;
+    border-radius: 10px;
+}
+.login_submit:hover, .login_submit:active{
+    background-color: rgba(57, 57, 118, 0.627);
+
+}
+.item_container_{
+    display:flex;
+    flex-direction: column;
+    
+    margin-left:35px;
+    margin-right:50px;
+    /* height:100px; */
+    gap:15px;
+}
+.product_{
+    display:flex;
+    flex-direction: row;
+    width:100%;
+    align-items: center;
+    justify-content: space-evenly;
+    border:2px solid rgb(81, 81, 81);
+    border-radius:15px;
+    height:200px;
+}
+.small{
+    border:2px solid rgb(188, 188, 188);
+
+}
+.catalog-image_{
+    width: 100px;
+    max-width: calc(16.25vw - 45px);
+    height: 100px;
+    border-radius: 100px;
+    margin-left:15px;
+    object-fit:fill;
+}
+.no-border{
+    outline: none;
+    border:none;
+    height:50px;
+}
+.grey-text_{
+    height:200px;
+}
+
+.admin_prod_input{
+    height:50px;
+    border-radius: 10px;
+    border: 1px solid rgb(189, 189, 189);
+    outline: none;
+    color:white;
+    padding-left: 15px;
+    background-color: rgb(1, 1, 48);
+}
+.admin_prod_input_area{
+    height:150px;
+    width:200px;
+    border-radius: 10px;
+    border: 1px solid rgb(189, 189, 189);
+    outline: none;
+    color:white;
+    padding-left: 15px;
+    padding-right: 5px;
+    background-color: rgb(1, 1, 48);
+}
+.flex-col{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+.flex-row{
+    display: flex;
+    flex-direction: row;
+    gap:15px;
+}
+
+input[type="file"]::file-selector-button{
+    background-color: rgb(57, 57, 118);
+    border: 1px solid rgb(189, 189, 189);
+    outline: none;
+    color:white;
+    height:25px;
+    border-radius: 10px;
+}
+input[type="file"]{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width:220px;
+
+
+}
+.admin_submit{
+    background-color: rgb(57, 57, 118);
+    border: 1px solid rgb(189, 189, 189);
+    outline: none;
+    color:white;
+    height:25px;
+    border-radius: 10px;
+}
+.admin_submit_delete{
+    background-color: rgb(118, 57, 57);
+    border: 1px solid rgb(189, 189, 189);
+    outline: none;
+    color:white;
+    height:25px;
+    border-radius: 10px;
+}
+.admin_submit_delete:hover, .admin_submit_delete:active{
+    background-color: rgba(118, 57, 57,0.617);
+}
+.admin_submit:hover, .admin_submit:active{
+    background-color: rgba(57, 57, 118, 0.627);
+}
+.navbar_container{
+    display: flex;
+    width:calc(100%-35px);
+    justify-content: left;
+    padding-left:35px;
+    padding-top:10px;
+}
+.navbar{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: flex-start;
+    width: 100px;
+    align-content: center;
+    flex-wrap: nowrap;
+    align-items: stretch;
+}
