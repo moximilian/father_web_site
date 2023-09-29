@@ -37,6 +37,12 @@ export async function getAllProducts(db) {
     const cityList = citySnapshot.docs.map(doc => doc.data());
     return cityList;
   }
+  export async function getAPIKey(db){
+    const citiesCol = collection(db, 'telegram_token');
+    const citySnapshot = await getDocs(citiesCol);
+    const cityList = citySnapshot.docs.map(doc => doc.data());
+    return cityList;
+  }
 
 export async function addNewItem(db, name,price, desc, image, id) {
     await setDoc(doc(db, "products", 'product_id=' + id), {
