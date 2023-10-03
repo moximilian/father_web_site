@@ -187,6 +187,17 @@ export default function Cart() {
                     </div>
                   </>
                 ))}
+              {products.length === 0 && (<>
+                <div className="items-row">
+                  <div className="small-pic fake-prod-image"></div>
+                  <div className="product-info">
+                      <div className="fake"></div>
+                      <div className="fake"></div>
+                      <div className="fake"></div>
+                  </div>
+                </div>
+              </> )}
+               
               <div className="line-large"></div>
               <div className="summary">
                 <h3>Итого </h3>

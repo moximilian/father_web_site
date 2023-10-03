@@ -13,7 +13,7 @@ import {
 } from "../server/firebase_server";
 import { firebaseConfig } from "../server/firebase_server";
 import { initializeApp } from "firebase/app";
-import { getStorage } from "firebase/storage";
+import { getStorage, ref, uploadBytes  } from "firebase/storage";
 import Footer from "../components/footer";
 import "./admin.css";
 import {
@@ -32,6 +32,7 @@ export default function Admin() {
   const [pass, setPass] = useState("");
   const [products, setProducts] = useState([]);
   const [promotions, setPromotions] = useState([]);
+  const [file, setFile] = useState(null);
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
@@ -102,9 +103,9 @@ export default function Admin() {
     reader.readAsArrayBuffer(file);
   };
   // const [base64String, setBase4String] = useState('')
-  const addNEWITEM = async (e, new_name, new_price, new_desc, base64String) => {
+  const addNEWITEM = async (e, new_name,new_group, new_price, new_desc, base64String) => {
     const new_id = products.length + 1;
-    await addNewItem(db, new_name, new_price, new_desc, base64String, new_id);
+    await addNewItem(db, new_name,new_group, new_price, new_desc, base64String, new_id);
     updatePage();
   };
   const addNEWPROM = async (e, new_name, new_date, new_desc, base64String) => {
@@ -117,10 +118,11 @@ export default function Admin() {
     var new_name = document.getElementById("new_name")?.value;
     var new_price = document.getElementById("new_price")?.value;
     var new_desc = document.getElementById("new_desc")?.value;
+    var new_group = document.getElementById("new_group")?.value; 
     blobToString(selectedImage)
       .then((base64String) => {
         // setBase4String(base64String)
-        addNEWITEM(e, new_name, new_price, new_desc, base64String);
+        addNEWITEM(e, new_name,new_group, new_price, new_desc, base64String);
       })
       .catch((error) => {
         console.log(error);
@@ -157,6 +159,7 @@ export default function Admin() {
     var new_name = document.getElementById(`name_no${product_id}`)?.value;
     var new_price = document.getElementById(`price_no${product_id}`)?.value;
     var new_desc = document.getElementById(`desc_no${product_id}`)?.value;
+    var new_group = document.getElementById(`group_no${product_id}`)?.value; 
     if (new_name === "") {
       new_name = old_prod.name;
     }
@@ -166,7 +169,10 @@ export default function Admin() {
     if (new_desc === "") {
       new_desc = old_prod.description;
     }
-    await changeItem(db, new_name, new_price, new_desc, old_prod.id);
+    if (new_group === ""){
+      new_group = old_prod.group;
+    }
+    await changeItem(db, new_name,new_group, new_price, new_desc, old_prod.id);
     updatePage();
   };
   const changePromotionData = async (e, product_id, old_prod) => {
@@ -186,6 +192,21 @@ export default function Admin() {
     await changePromotion(db, new_name, new_date, new_desc, old_prod.id);
     updatePage();
   };
+
+  const handleXLSXChange = (event) => {
+    setFile(event.target.files[0]);
+  }
+  const handleXLSXUpload = () =>{
+    if (file) {
+      const storageRef = ref(storage, file.name)
+      // const storageRef = getStorage(app).ref();
+      // const fileRef = storageRef.child(file.name);
+      uploadBytes(storageRef, file).then((snapshot)=>{
+        console.log('uploaded a blob or file!');
+        alert(`Файл ${file.name} был добавлен в базу данных успешно` )
+      })
+    }
+  }
 
   return (
     <>
@@ -222,11 +243,22 @@ export default function Admin() {
               <button className="admin_submit" onClick={() => updatePage()}>
                 Обновить
               </button>
-              <h1>Каталог</h1>
+              
             </div>
           </div>
           <>
+            <div id='xlsx-files'>
+              <h1>Загрузка прайс листов</h1>
+              <p>Пожалуйста, называйте свои файлы xlsx слово в слово с категориями товаров!</p>
+              <div className="item_container_">
+                  <div>
+                  <input type="file" accept=".xlsx" onChange={handleXLSXChange} />
+                  <button onClick={handleXLSXUpload}>Upload</button>
+                  </div>
+              </div>
+            </div>
             <div id="catalog">
+            <h1>Каталог</h1>
               <div className="item_container_">
                 <form onSubmit={(e) => createNewProduct(e)}
                   encType="multipart/form-data"
@@ -254,6 +286,11 @@ export default function Admin() {
                       id="new_price"
                       className="admin_prod_input"
                       placeholder="Новая цена"
+                    />
+                    <input
+                      id="new_group"
+                      className="admin_prod_input"
+                      placeholder="Группа"
                     />
                     <textarea
                       id="new_desc"
@@ -285,6 +322,18 @@ export default function Admin() {
                           placeholder="новое название"
                         />
                       </div>
+
+                      <div className="flex-col">
+                        <div className="bold-small no-border">
+                          {product.group}
+                        </div>
+                        <input
+                          id={`group_no${product.id}`}
+                          className="admin_prod_input"
+                          placeholder="новая группа"
+                        />
+                      </div>
+
                       <div className="flex-col">
                         <div className="no-border">{product.price}</div>
                         <input

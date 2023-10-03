@@ -28,9 +28,9 @@ export default function Main() {
         <div className="main-container">
           <div className="basic-info">
             <div className="basic-text">
-              <div className="bold">Дом твоей мечты</div>
+              <div className="bold">Skill Market</div>
               <div className="grey-text">
-                Строительная компания, Строительный инструмент
+                Компания строительных инструментов и не только.
               </div>
               <div>Наша компрания поможет решением ваших задач</div>
             </div>

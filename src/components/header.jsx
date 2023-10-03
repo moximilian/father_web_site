@@ -8,24 +8,26 @@ export default function Header() {
   const addCartCouner = () => {
     const cart_counter = document.getElementById("cart-counter");
     cart_counter.style.padding = "0 7px 2px 5px";
-    cart_counter.style.width = "12.5px";
+    // cart_counter.style.width = "12.5px";
+    cart_counter.style.backgroundColor = 'red';
     cart_counter.innerHTML = itemCount;
-    const container = document.getElementById("container");
-    container.style.display = "inline-block";
-    container.style.marginTop = "auto";
-    // cart_counter.classList.add('cart-after');
+    const container = document.getElementById("container_c");
+    // container.style.display = "contents";
+    // container.style.marginTop = "calc(auto + 5px)";
   };
   const removeCartCouner = () => {
     const cart_counter = document.getElementById("cart-counter");
-    cart_counter.style.padding = "0";
-    cart_counter.style.width = "0";
     cart_counter.innerHTML = "";
+    cart_counter.style.backgroundColor = 'transparent';
+    cart_counter.style.width = "0px";
 
-    const container = document.getElementById("container");
-    container.style.display = "block";
-    container.style.marginTop = "0";
-    // cart_counter.classList.remove('cart-after');
   };
+  const SmoothScrollTo = (e, path) => {
+    e.preventDefault();
+    document.querySelector(path).scrollIntoView({
+      behavior: 'smooth'
+  });
+  }
   useEffect(() => {
     var items_count = 0;
     if (itemsInCart.length === 1) {
@@ -49,7 +51,7 @@ export default function Header() {
   useEffect(()=>{
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
-      const scrollTriggerPosition = document.getElementById('container').offsetTop;
+      const scrollTriggerPosition = document.getElementById('container_c').offsetTop;
 
       if (scrollPosition > scrollTriggerPosition) {
         setShowHiddenDiv(true);
@@ -65,6 +67,9 @@ export default function Header() {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+
+
   return (
     <>
       <header>
@@ -75,24 +80,20 @@ export default function Header() {
               alt="logo_small"
               className="logo_small"
             />
-            <Link className="link" to="/#promotions">
-              {" "}
-              Акции
-            </Link>
-            <Link className="link" to="/#catalog">
+            <button onClick={(e)=>SmoothScrollTo(e,"#catalog")} className="link" >
               Каталог
-            </Link>
-            <Link className="link" to="/#photo">
+            </button>
+            {/* <button onClick={(e)=>SmoothScrollTo(e,"#photo") } className="link" >
               Фото
-            </Link>
-            <Link className="link" to="/#about-us">
-              Мы
-            </Link>
-            <Link className="link" to="/#contacts">
+            </button> */}
+            <button onClick={(e)=>SmoothScrollTo(e,"#about-us") } className="link">
+              О&nbsp;нас
+            </button>
+            <button onClick={(e)=>SmoothScrollTo(e,"main") } className="link" >
               Контакты
-            </Link>
+            </button>
           </div>
-          <div id="container">
+          <div id="container_c">
             <Link to="/cart/" className="cart">
               Корзина
             </Link>

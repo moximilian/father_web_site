@@ -38,9 +38,10 @@ export async function getAllProducts(db) {
     return cityList;
   }
 
-export async function addNewItem(db, name,price, desc, image, id) {
+export async function addNewItem(db, name,new_group,price, desc, image, id) {
     await setDoc(doc(db, "products", 'product_id=' + id), {
         name: name,
+        group:new_group,
         price: price,
         description: desc,
         image:image,
@@ -62,9 +63,10 @@ export async function addNewItem(db, name,price, desc, image, id) {
         id:new_id,
       });
   }
-  export async function changeItem(db,new_name,price, desc, id) {
+  export async function changeItem(db,new_name,new_group,price, desc, id) {
     await updateDoc(doc(db, "products", 'product_id=' + id), {
         name: new_name,
+        group:new_group,
         price: price,
         description: desc,
         id:id

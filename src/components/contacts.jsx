@@ -24,7 +24,7 @@ export default function Contacts() {
           Оформить заказ
         </Link>
         <button onClick={() => togglePhone()} className="contact no_bg">
-          <b>Показать номер</b>
+        Показать номер
         </button>
         <div className="contact">Написать</div>
         <a className="contact" href="https://t.me/+79854361331">

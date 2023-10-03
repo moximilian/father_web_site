@@ -118,9 +118,9 @@ export default function Item() {
           {product ? (
             <>
               <div className="product-one">
-                <img src={"data:image/jpg;base64," + product.image } alt={product.name} />
+                <img className="image-item" src={"data:image/jpg;base64," + product.image } alt={product.name} />
                 <div className="product-texting">
-                  <div className="grey-text">Пневмоинструмент</div>
+                  <div className="grey-text">{product.group}</div>
                   <h1>{product.name}</h1>
                   <h1 className="bold">{product.price}₽</h1>
                   {getCountById(product.id) === 0 ? (

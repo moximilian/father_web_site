@@ -6,31 +6,6 @@ import { getFirestore } from "firebase/firestore/lite";
 import { getAllPromotions } from "../server/firebase_server";
 
 export default function Promotions() {
-  // const images = [
-  //   {
-  //     src: "images/priority-promotion1.png",
-  //     main_text: "Сделайте заказ на сумму от 100 тыс руб, получите доп скидку.",
-  //     alter_text:
-  //       "Данная акция запускается с целью наибольшей лояльности по цене к новым клиентам компании, дополнительная скидка просчитывается индивидуально.",
-  //     date: "с 31.08.2023 по 30.09.2023",
-  //   },
-  //   {
-  //     src: "images/priority-promotion2.png",
-  //     main_text: "Пика к отбойному молотку П11",
-  //     alter_text:
-  //       "Предлагаем со склада в Москве и под заказ пневмо отбойные молотки расходные материалы к ним, оснастки. Кратчайшие сроки поставки. Акция: до 1.10.2023 цена пики при заказе от 10 коробок (150шт) 290 руб",
-  //     date: "с 21.08.2023 по 21.09.2023",
-  //   },
-  //   {
-  //     src: "images/priority-promotion3.png",
-  //     main_text:
-  //       "Абонентское обслуживание окон рольставень гаражных секционных ворот",
-  //     alter_text:
-  //       "Новый проект нашей компании, годовое обслуживаете, платите раз в год, два сезонных обслуживания входят в эту стоимость работы, замена запчастей оплачивается отдельно. Выезд мастера, дефектовка.",
-  //     date: "с 09.08.2023 по 30.11.2023",
-  //   },
-  // ];
-
   const [images, setPromotions] = useState([]);
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
@@ -38,6 +13,8 @@ export default function Promotions() {
     const FetchData = async () => {
       const prod = await getAllPromotions(db);
       setPromotions(prod);
+      const slider = document.querySelector('.slider');
+      slider.style.backgroundColor = 'transparent';
     };
     FetchData();
   }, [db]);
@@ -69,14 +46,14 @@ export default function Promotions() {
 
     // Set the data URL as the background image of the container
     // containerElement.backgroundImage = `url(${dataUrl})`;
-    containerElement.style.setProperty('background-image',`url(${dataUrl})`);
+    containerElement.style.setProperty("background-image", `url(${dataUrl})`);
   }
   const nextSlide = () => {
     setCurrentSlide((currentSlide + 1) % images.length);
 
     const imageElement = document.getElementById("slider-image");
     const containerElement = document.getElementById("container");
-    console.log(imageElement, containerElement)
+    console.log(imageElement, containerElement);
     createBlurredBackground(imageElement, containerElement);
   };
 
@@ -112,14 +89,37 @@ export default function Promotions() {
                 </div>
               </div>
             ))}
-            <div className="slider-controls">
-              <button className="prev-btn" onClick={prevSlide}>
-                &#10094;
-              </button>
-              <button className="next-btn" onClick={nextSlide}>
-                &#10095;
-              </button>
-            </div>
+
+            {images.length === 0 ? (
+              <>
+                <div
+                  className="slide active"
+                  style={{ transform: `translateX(-${0 * 100}%)` }}
+                >
+                  <div id="container" className="fake-animation">
+                      <div id="slider-image" className="fake-image"></div>
+
+
+                    <div className="fake-text">
+                      <div className="slide-main-text fake-main"></div>
+                      <div className="slide-alter-text fake-alter"></div>
+                      <div className="grey-text fake"></div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="slider-controls">
+                  <button className="prev-btn" onClick={prevSlide}>
+                    &#10094;
+                  </button>
+                  <button className="next-btn" onClick={nextSlide}>
+                    &#10095;
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

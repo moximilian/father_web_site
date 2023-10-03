@@ -12,7 +12,7 @@ header {
 }
 
 .header-container {
-  padding-top: 10px;
+  padding-top: 15px;
   padding-left: 30px;
   padding-bottom: 10px;
   content: "1";
@@ -35,6 +35,10 @@ header {
 .link {
   color: #acada7;
   text-decoration: none;
+  outline: none;
+  background-color: transparent;
+  border:none;
+  font-size: 18px;
   width: 100%;
   transition: 500ms;
 }
@@ -48,9 +52,13 @@ header {
   align-items: center;
 }
 
+#container_c{
+  display:inline-block;
+  height:30px;
+}
 .cart {
   padding: 10px;
-  margin-right: 15px;
+  margin-right: 25px;
   background-color: #ffdc60;
   color: #303336;
   border-radius: 15px;
@@ -61,6 +69,20 @@ header {
   overflow: hidden;
   z-index: 1;
 }
+.cart-after {
+  z-index: 2;
+  position: relative;
+
+  bottom:45px;
+  left:65px;
+  background-color: red;
+  border-radius: 15px;
+  color: white;
+  text-align: center;
+
+  width:fit-content;
+  block-size: fit-content;
+}
 
 .cart:hover {
   color: #303336;
@@ -68,17 +90,7 @@ header {
   border: 2px solid #b2921ffb
 }
 
-.cart-after {
-  z-index: 2;
-  position: relative;
 
-  top: -40px;
-  left: 70px;
-  background-color: red;
-  border-radius: 15px;
-  color: white;
-  text-align: center;
-}
 
 .logo_small {
   width: 40px;
