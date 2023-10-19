@@ -54,7 +54,26 @@ h2{
     margin-left:35px;
     margin-right:50px;
     /* height:100px; */
+    
     gap:15px;
+}
+#xlsx-files{
+    display: flex;
+    flex-direction: column;
+    gap:20px;
+    border:1px solid lightblue;
+    margin:35px;
+    padding:15px;
+    border-radius: 15px;
+}
+.download{
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    border:1px solid lightblue;
+    width: fit-content;
+    padding: 15px;
+    border-radius: 15px;
 }
 .product_{
     display:flex;
@@ -172,4 +191,14 @@ input[type="file"]{
     align-content: center;
     flex-wrap: nowrap;
     align-items: stretch;
+}
+.pricelist{
+    display: flex;
+    flex-direction: row;
+    gap:15px;
+
+    width:fit-content;
+    padding:10px;
+    border-radius: 15px;
+    border:1px solid lightblue;
 }

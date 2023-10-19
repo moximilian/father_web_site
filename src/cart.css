@@ -187,6 +187,20 @@
 .btn-submit:hover {
     background-color: #f1ce4e;
 }
+.summ_of_item_delete_all{
+    display:flex;
+    flex-direction: column;
+    gap:50px;
+    align-items:end;
+}
+.red{
+    background-color: rgb(234, 119, 119);
+    border-color:red;
+    color:white;
+}
+.red:hover{
+    background-color:rgba(233, 51, 51, 0.777);
+}
 
 .personal-data {
     margin-top: 45px;

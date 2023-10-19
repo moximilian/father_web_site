@@ -55,6 +55,9 @@ export default function Cart() {
       }
     }
     switch (operator) {
+      case "erase":
+        old_count = 0;
+        break;
       case "add":
         if (isFirstAdd) {
           old_count = 0;
@@ -109,11 +112,16 @@ export default function Cart() {
 
   return (
     <>
-      <Header />
+      <Header
+        pages={[
+          { name: "Главная", scrolled: false, path: "/" },
+          { name: "Каталог", scrolled: false, path: "/catalog/" },
+        ]}
+      />
       <div id="dim"></div>
       <div className="main-thing-cart">
         <div className="cart-container">
-          <Link to="/#catalog">
+          <Link to="/catalog/">
             <div className="get-back">
               <ArrowLeft />
               Каталог
@@ -149,6 +157,7 @@ export default function Cart() {
                               >
                                 <b>+</b>
                               </button>
+
                               {getCountById(product.id)}
                               <button
                                 disabled="true"
@@ -159,6 +168,7 @@ export default function Cart() {
                               >
                                 <b>-</b>
                               </button>
+
                             </div>
                           ) : (
                             <div className="buttons_add_del">
@@ -183,7 +193,10 @@ export default function Cart() {
                           )}
                         </div>
                       </div>
-                      {product.price * getCountById(product.id)}₽
+                      <div className='summ_of_item_delete_all'>
+                        {product.price * getCountById(product.id)}₽
+                        <button onClick={()=>handleItemsInCart(product.id,'erase')} className = 'btn-product small red'>Удалить</button>
+                      </div>
                     </div>
                   </>
                 ))}
@@ -208,7 +221,6 @@ export default function Cart() {
           <FormSubmit />
         </div>
       </div>
-
       <Footer />
     </>
   );

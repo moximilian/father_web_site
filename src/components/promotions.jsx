@@ -83,9 +83,11 @@ export default function Promotions() {
                   />
                 </div>
                 <div className="text">
-                  <div className="slide-main-text">{image.name}</div>
-                  <div className="slide-alter-text">{image.description}</div>
-                  <div className="grey-text">{image.date}</div>
+                
+
+                  <div className="slide-main-text"><td dangerouslySetInnerHTML={{__html: image.name}} /></div>
+                  <div className="slide-alter-text"><td dangerouslySetInnerHTML={{__html: image.description}} /></div>
+                  <div className="grey-text"><td dangerouslySetInnerHTML={{__html: image.date}} /></div>
                 </div>
               </div>
             ))}

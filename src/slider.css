@@ -261,6 +261,7 @@
         border-radius: 0 15px 15px 0;
         flex-wrap: nowrap;
         justify-content: center;
+        padding-bottom: 35px;
     }
     .fake-text{
         /* background-color: rgb(181, 181, 181); */
@@ -276,6 +277,7 @@
         border-radius: 0 15px 15px 0;
         flex-wrap: nowrap;
         justify-content: center;
+        padding-bottom: 35px;
     }
 
     .slide img {

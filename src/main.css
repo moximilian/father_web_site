@@ -78,6 +78,7 @@ a {
     border: none;
     /* outline: none; */
     height: 100%;
+    font-size: 16px;
 }
 
 .contact:hover {
@@ -91,7 +92,7 @@ a {
     display: flex;
     flex-direction: row;
     gap: 10px;
-    height: 45px;
+    height: 50px;
     /* justify-content: left; */
     flex-wrap: wrap;
 }
@@ -102,6 +103,7 @@ a {
     color: #303336;
     border-radius: 15px;
     text-decoration: none;
+
     font-weight: bold;
     width: fit-content;
     block-size: fit-content;
@@ -190,7 +192,112 @@ a {
     flex-direction: row;
     gap: 15px;
     align-items: center;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    font-size: 16px;
+    transition: 0.5s;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
 
+.star-component:hover {
+    background-color: rgb(236, 236, 236);
+    transition: 0.5s;
+    border-radius: 15px;
+}
+
+.pricelists {
+    position: relative;
+
+    background-color: rgb(247, 247, 247);
+    border-radius: 15px;
+    width: 40vw;
+    padding-left: 15px;
+    padding-top: 1px;
+    padding-bottom: 15px;
+    padding-right:15px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.smaller {
+    width: 150px;
+}
+
+.liner {
+    position: relative;
+    height: 0px;
+    width: calc(42vw - 30px);
+
+    border: 0.25px solid rgb(183, 183, 183);
+}
+
+.isOpened {
+    background-color: rgb(247, 247, 247);
+    border-radius: 15px;
+}
+
+.sdek {
+    width: 100px;
+}
+
+.delivery {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    align-items: center;
+}
+
+.contacts_icons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 150px;
+    background-color: lightgrey;
+    padding-left: 15px;
+    padding-right: 5px;
+    border-radius: 15px;
+
+}
+
+.hidden {
+    animation: vanish-out 0.5s forwards;
+}
+.created{
+    animation: bounce-in 0.5s;
+}
+
+@keyframes vanish-out {
+    0% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(-100%);
+      display: none;
+    }
+  }
+
+@keyframes bounce-in {
+    0% {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+
+    70% {
+        opacity: 1;
+        transform: translateX(10%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
 }
 
 @media screen and (max-width: 1032px) {
@@ -204,7 +311,8 @@ a {
         height: fit-content;
         width: 100%;
     }
-     .contact {
+
+    .contact {
         text-align: center;
         padding: 10px;
         background-color: #e3e5ed;
@@ -214,14 +322,16 @@ a {
         width: 97%;
         block-size: fit-content;
         font-weight: bold;
-        transition:500ms;
+        transition: 500ms;
     }
+
     .no_bg {
         border: none;
         /* outline: none; */
         height: 100%;
         width: 100%;
     }
+
     .order {
         text-align: center;
         padding: 10px;
@@ -233,6 +343,47 @@ a {
         width: 96%;
         block-size: fit-content;
         border: 2px solid transparent;
+    }
+
+    .timetable {
+        position: fixed;
+        top: 35vh;
+        left: 30vw;
+        z-index: 11;
+        background-color: rgb(255, 255, 255);
+        border-radius: 15px;
+        width: 45vw;
+        padding-left: 15px;
+        padding-top: 1px;
+        padding-bottom: 15px;
+    }
+
+    .days {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .day {
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+        align-items: end;
+        justify-content: space-evenly;
+    }
+
+    .line {
+        position: absolute;
+        height: 0.12px;
+        left: -1px;
+        width: calc(45vw + 15px);
+        border: 0.25px solid rgb(183, 183, 183);
+    }
+
+    .dot-line {
+        height: 0.12px;
+        width: 17vw;
+        border: 0.25px dashed grey;
     }
 }
 
@@ -271,6 +422,7 @@ a {
         font-weight: bold;
         transition: 500ms;
     }
+
     .no_bg {
         border: none;
         /* outline: none; */
@@ -289,5 +441,50 @@ a {
         width: 97%;
         block-size: fit-content;
         border: 2px solid transparent;
+    }
+}
+
+
+@media screen and (max-width: 900px) {
+
+    .timetable {
+        position: fixed;
+        top: 35vh;
+        left: 15vw;
+        z-index: 11;
+        background-color: rgb(255, 255, 255);
+        border-radius: 15px;
+        width: 70vw;
+        padding-left: 15px;
+        padding-top: 1px;
+        padding-bottom: 15px;
+    }
+
+    .days {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .day {
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+        align-items: end;
+        justify-content: space-evenly;
+    }
+
+    .line {
+        position: absolute;
+        height: 0.12px;
+        left: -1px;
+        width: calc(70vw + 15px);
+        border: 0.25px solid rgb(183, 183, 183);
+    }
+
+    .dot-line {
+        height: 0.12px;
+        width: 17vw;
+        border: 0.25px dashed grey;
     }
 }

@@ -1,8 +1,14 @@
 import { Link } from "react-router-dom";
 import useComponentVisible from "../hooks/useComponentVisible";
-import PhoneNumber from './PhoneNumber'
+import PhoneNumber from "./PhoneNumber";
+import { ReactComponent as Telegram } from "../images/icons/tg.svg";
+import { ReactComponent as Viber } from "../images/icons/viber.svg";
+import { ReactComponent as Whatsup } from "../images/icons/whatsup.svg";
+import { ReactComponent as Email } from "../images/icons/email.svg";
+import { useState, useEffect } from "react";
 export default function Contacts() {
   const [phoneRef, isPhoneShown, setPhoneShown] = useComponentVisible(false);
+  const [isButtonsShown, setButtonsShown] = useState(true);
   const handleVisibility = () => {
     const dim_element = document.getElementById("dim");
     dim_element.classList.add("dim_filter");
@@ -12,6 +18,39 @@ export default function Contacts() {
       document.height !== undefined
         ? document.height
         : document.body.offsetHeight + "px";
+  };
+  const handleConatcts = (e) => {
+    e.preventDefault();
+    console.log('!');
+    setButtonsShown(!isButtonsShown);
+
+  };
+  // const handleAnimationEnd = (e) => {
+  //   e.preventDefault();
+  //   setButtonsShown(true);
+  // };
+
+  const Buttons = () => {
+    return (
+      <div 
+      className={`contacts_icons ${isButtonsShown ? 'hidden' : 'created'}`}
+      // onAnimationEnd={(e)=>handleConatcts(e)}
+
+      >
+        <a href="mailto:ImpulsServiceCentre@yandex.ru&body=Новый_Заказ">
+          <Email />
+        </a>
+        <a href="https://t.me/+79854361331">
+          <Telegram />
+        </a>
+        <a href="#/" alt="">
+          <Viber />
+        </a>
+        <a href="https://api.whatsapp.com/send/?phone=79854361331&text&type=phone_number&app_absent=0">
+          <Whatsup />
+        </a>
+      </div>
+    );
   };
   const togglePhone = () => {
     handleVisibility();
@@ -24,26 +63,13 @@ export default function Contacts() {
           Оформить заказ
         </Link>
         <button onClick={() => togglePhone()} className="contact no_bg">
-        Показать номер
+          Показать номер
         </button>
-        <div className="contact">Написать</div>
-        <a className="contact" href="https://t.me/+79854361331">
-          Telegram
-        </a>
-        <div className="contact">Viber</div>
-        <div
-          className="contact"
-          href="https://api.whatsapp.com/send/?phone=79854361331&text&type=phone_number&app_absent=0"
-        >
-          WhatsApp
-        </div>
-        <div ref={phoneRef}>
-            {isPhoneShown ? (
-              <PhoneNumber/>
-            ) : (
-              <></>
-            )}
-          </div>
+        <button onClick={(e) => handleConatcts(e)} className="contact no_bg">
+          Написать
+        </button>
+        <Buttons />
+        <div ref={phoneRef}>{isPhoneShown ? <PhoneNumber /> : <></>}</div>
       </div>
     </>
   );

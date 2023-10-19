@@ -9,21 +9,13 @@ import {
   addNewProm,
   getAllPromotions,
   changePromotion,
-  deletePromFromDB
+  deletePromFromDB,
 } from "../server/firebase_server";
 import { firebaseConfig } from "../server/firebase_server";
 import { initializeApp } from "firebase/app";
-import { getStorage, ref, uploadBytes  } from "firebase/storage";
-import Footer from "../components/footer";
+import { getStorage, ref, uploadBytes, listAll, deleteObject } from "firebase/storage";
 import "./admin.css";
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  Bytes,
-} from "firebase/firestore/lite";
-import { ReactComponent as ArrowRight } from "../images/icons/arrow-right.svg";
-import { ReactComponent as ArrowLeft } from "../images/icons/arrow-left.svg";
+import { getFirestore } from "firebase/firestore/lite";
 export default function Admin() {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -45,7 +37,6 @@ export default function Admin() {
       const prod = await getAllProducts(db);
       setProducts(prod);
       const prom = await getAllPromotions(db);
-      console.log(prom);
       setPromotions(prom);
     }
   };
@@ -54,6 +45,7 @@ export default function Admin() {
     setSelectedImage(null);
 
     setProducts(prod);
+    getFileList(storage);
   };
   const handleNameChange = (e) => {
     const { name, value, validationMessage } = e.target;
@@ -65,6 +57,15 @@ export default function Admin() {
   };
 
   const productsToShow = products;
+  // var prodoctsGroups = products.slice(startIndex, endIndex);
+  var prodoctsGroups;
+  prodoctsGroups = products.reduce((unique, product) => {
+    const group = unique.find((item) => item.name === product.group);
+    if (!group) {
+      unique.push({ id: unique.length + 1, name: product.group });
+    }
+    return unique;
+  }, []);
 
   const logout = () => {
     setIsLoggedIn(false);
@@ -96,16 +97,30 @@ export default function Admin() {
     const file = event.target.files[0];
     const reader = new FileReader();
     reader.onloadend = () => {
-      console.log(reader.result);
       const blob = new Blob([reader.result], { type: file.type });
       setSelectedImage(blob);
     };
     reader.readAsArrayBuffer(file);
   };
   // const [base64String, setBase4String] = useState('')
-  const addNEWITEM = async (e, new_name,new_group, new_price, new_desc, base64String) => {
+  const addNEWITEM = async (
+    e,
+    new_name,
+    new_group,
+    new_price,
+    new_desc,
+    base64String
+  ) => {
     const new_id = products.length + 1;
-    await addNewItem(db, new_name,new_group, new_price, new_desc, base64String, new_id);
+    await addNewItem(
+      db,
+      new_name,
+      new_group,
+      new_price,
+      new_desc,
+      base64String,
+      new_id
+    );
     updatePage();
   };
   const addNEWPROM = async (e, new_name, new_date, new_desc, base64String) => {
@@ -118,11 +133,11 @@ export default function Admin() {
     var new_name = document.getElementById("new_name")?.value;
     var new_price = document.getElementById("new_price")?.value;
     var new_desc = document.getElementById("new_desc")?.value;
-    var new_group = document.getElementById("new_group")?.value; 
+    var new_group = document.getElementById("new_group")?.value;
     blobToString(selectedImage)
       .then((base64String) => {
         // setBase4String(base64String)
-        addNEWITEM(e, new_name,new_group, new_price, new_desc, base64String);
+        addNEWITEM(e, new_name, new_group, new_price, new_desc, base64String);
       })
       .catch((error) => {
         console.log(error);
@@ -144,22 +159,21 @@ export default function Admin() {
   };
   const deleteProd = async (e, old_prod) => {
     e.preventDefault();
-    console.log(old_prod);
     await deleteItemFromDB(db, old_prod);
     updatePage();
   };
-  const deleteProm = async (e, old_prom)=>{
+  const deleteProm = async (e, old_prom) => {
     e.preventDefault();
     console.log(old_prom);
     await deletePromFromDB(db, old_prom);
     updatePage();
-  }
+  };
   const changeData = async (e, product_id, old_prod) => {
     e.preventDefault();
     var new_name = document.getElementById(`name_no${product_id}`)?.value;
     var new_price = document.getElementById(`price_no${product_id}`)?.value;
     var new_desc = document.getElementById(`desc_no${product_id}`)?.value;
-    var new_group = document.getElementById(`group_no${product_id}`)?.value; 
+    var new_group = document.getElementById(`group_no${product_id}`)?.value;
     if (new_name === "") {
       new_name = old_prod.name;
     }
@@ -169,10 +183,10 @@ export default function Admin() {
     if (new_desc === "") {
       new_desc = old_prod.description;
     }
-    if (new_group === ""){
+    if (new_group === "") {
       new_group = old_prod.group;
     }
-    await changeItem(db, new_name,new_group, new_price, new_desc, old_prod.id);
+    await changeItem(db, new_name, new_group, new_price, new_desc, old_prod.id);
     updatePage();
   };
   const changePromotionData = async (e, product_id, old_prod) => {
@@ -195,18 +209,47 @@ export default function Admin() {
 
   const handleXLSXChange = (event) => {
     setFile(event.target.files[0]);
-  }
-  const handleXLSXUpload = () =>{
+  };
+  const handleXLSXUpload = (e) => {
+    e.preventDefault();
+    console.log(file);
     if (file) {
-      const storageRef = ref(storage, file.name)
-      // const storageRef = getStorage(app).ref();
-      // const fileRef = storageRef.child(file.name);
-      uploadBytes(storageRef, file).then((snapshot)=>{
-        console.log('uploaded a blob or file!');
-        alert(`Файл ${file.name} был добавлен в базу данных успешно` )
-      })
+      const storageRef = ref(storage, file.name);
+      uploadBytes(storageRef, file)
+        .then((snapshot) => {
+          console.log("uploaded a blob or file!");
+          alert(`Файл ${file.name} был добавлен в базу данных успешно`);
+          getFileList(storage);
+        })
+        .catch((err) => {
+          alert(` Файл ${file.name} не был добавлен в базу данных :(`);
+          console.log(err);
+        });
     }
-  }
+  };
+  const [alreadyCreatedFileLists, setCreatedFileLists] = useState([]);
+  const getFileList = async (storage) => {
+    try {
+      const files_arr = [];
+      const res = await listAll(ref(storage, "/"));
+      res.items.map((file) => {
+        return files_arr.push(file?.name);
+      });
+      setCreatedFileLists(files_arr);
+      console.log(files_arr);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const deletePriceList = async (e, file_name) => {
+    e.preventDefault();
+    await deleteObject(ref(storage, file_name));
+    getFileList(storage);
+
+  };
+  useEffect(() => {
+    getFileList(storage);
+  },[]);
 
   return (
     <>
@@ -243,24 +286,41 @@ export default function Admin() {
               <button className="admin_submit" onClick={() => updatePage()}>
                 Обновить
               </button>
-              
             </div>
           </div>
           <>
-            <div id='xlsx-files'>
+            <div id="xlsx-files">
               <h1>Загрузка прайс листов</h1>
-              <p>Пожалуйста, называйте свои файлы xlsx слово в слово с категориями товаров!</p>
               <div className="item_container_">
-                  <div>
-                  <input type="file" accept=".xlsx" onChange={handleXLSXChange} />
-                  <button onClick={handleXLSXUpload}>Upload</button>
+                <div className="download">
+                  <input
+                    type="file"
+                    accept=".xlsx, .xls"
+                    onChange={handleXLSXChange}
+                  />
+                  <button className="admin_submit" onClick={(e) => handleXLSXUpload(e)}>Загрузить файл</button>
+                </div>
+              </div>
+              <div className="item_container_">
+                {alreadyCreatedFileLists.map((file) => (
+                  <div className="pricelist">
+                    {file}
+                    <button
+                      className="admin_submit_delete"
+                      onClick={(e) => deletePriceList(e, file)}
+                    >
+                      {" "}
+                      Удалить файл
+                    </button>
                   </div>
+                ))}
               </div>
             </div>
             <div id="catalog">
-            <h1>Каталог</h1>
+              <h1>Каталог</h1>
               <div className="item_container_">
-                <form onSubmit={(e) => createNewProduct(e)}
+                <form
+                  onSubmit={(e) => createNewProduct(e)}
                   encType="multipart/form-data"
                 >
                   <div className="product_ small">
@@ -462,7 +522,12 @@ export default function Admin() {
                         type="submit"
                         value="Изменить"
                       />
-                      <button onClick = {(e)=>deleteProm(e,product.id)}className="admin_submit_delete"  >Удалить</button>
+                      <button
+                        onClick={(e) => deleteProm(e, product.id)}
+                        className="admin_submit_delete"
+                      >
+                        Удалить
+                      </button>
                     </div>
                   </form>
                 ))}

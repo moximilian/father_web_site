@@ -105,11 +105,15 @@ export default function Item() {
 
   return (
     <>
-      <Header />
+      <Header
+        pages={[
+          { name: "Главная", scrolled: false, path: "/" },
+        ]}
+      />
       <div id="dim"></div>
       <div className="main-thing">
         <div className="main-container">
-          <Link to="/#catalog">
+          <Link to="/catalog/">
             <div className="get-back">
               <ArrowLeft />
               Каталог
@@ -121,7 +125,7 @@ export default function Item() {
                 <img className="image-item" src={"data:image/jpg;base64," + product.image } alt={product.name} />
                 <div className="product-texting">
                   <div className="grey-text">{product.group}</div>
-                  <h1>{product.name}</h1>
+                  <h1><td dangerouslySetInnerHTML={{__html: product.name}} /></h1>
                   <h1 className="bold">{product.price}₽</h1>
                   {getCountById(product.id) === 0 ? (
                     <button
@@ -156,8 +160,7 @@ export default function Item() {
                     </div>
                   </div>
                   <div>
-                    <div className="grey-text">Строительная компания </div>
-                    Дом твоей мечты
+                    Skill Market<br></br>
                     <button
                       onClick={() => handleVisibilityOfSchedule()}
                       className="grey-text btn-false"
@@ -173,7 +176,7 @@ export default function Item() {
 
               <div className="desc">
                 <h1>Описание</h1>
-                {product.description}
+                <td dangerouslySetInnerHTML={{__html: product.description}} />
               </div>
               <h1>Контакты</h1>
               <Contacts />

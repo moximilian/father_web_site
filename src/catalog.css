@@ -2,6 +2,7 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 15px;
+    margin-bottom: 75px;
 }
 .product {
     display: flex;
@@ -24,6 +25,7 @@
     display: flex;
     flex-direction: row;
     gap:5px;
+    margin-bottom:15px;
 }
 .product_group{
     background-color: #e3e5ed;
@@ -89,6 +91,8 @@
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 15px;
+        margin-bottom: 75px;
+
     }
     @keyframes gradient-animation_3 {
         0% {
@@ -139,6 +143,8 @@
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 15px;
+        margin-bottom: 75px;
+
     }
 
     .product {
@@ -186,6 +192,8 @@
         display: flex;
         flex-direction: column;
         gap: 15px;
+        margin-bottom: 75px;
+
     }
 
 }
@@ -270,4 +278,7 @@
 
 .small {
     padding: 10px 18.5px;
+}
+.download_container{
+    margin-top:75px;
 }

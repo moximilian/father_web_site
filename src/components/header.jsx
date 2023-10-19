@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-export default function Header() {
+
+export default function Header({pages}) {
   const itemsInCart = useSelector((state) => state.itemsInCart);
 
   const [itemCount, setItemCount] = useState();
@@ -9,7 +10,7 @@ export default function Header() {
     const cart_counter = document.getElementById("cart-counter");
     cart_counter.style.padding = "0 7px 2px 5px";
     // cart_counter.style.width = "12.5px";
-    cart_counter.style.backgroundColor = 'red';
+    cart_counter.style.backgroundColor = "red";
     cart_counter.innerHTML = itemCount;
     const container = document.getElementById("container_c");
     // container.style.display = "contents";
@@ -18,16 +19,15 @@ export default function Header() {
   const removeCartCouner = () => {
     const cart_counter = document.getElementById("cart-counter");
     cart_counter.innerHTML = "";
-    cart_counter.style.backgroundColor = 'transparent';
+    cart_counter.style.backgroundColor = "transparent";
     cart_counter.style.width = "0px";
-
   };
   const SmoothScrollTo = (e, path) => {
     e.preventDefault();
     document.querySelector(path).scrollIntoView({
-      behavior: 'smooth'
-  });
-  }
+      behavior: "smooth",
+    });
+  };
   useEffect(() => {
     var items_count = 0;
     if (itemsInCart.length === 1) {
@@ -48,10 +48,11 @@ export default function Header() {
     }
   }, [setItemCount, itemsInCart, itemCount]);
   const [showHiddenDiv, setShowHiddenDiv] = useState(false);
-  useEffect(()=>{
+  useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
-      const scrollTriggerPosition = document.getElementById('container_c').offsetTop;
+      const scrollTriggerPosition =
+        document.getElementById("container_c").offsetTop;
 
       if (scrollPosition > scrollTriggerPosition) {
         setShowHiddenDiv(true);
@@ -60,15 +61,13 @@ export default function Header() {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
     // Cleanup the event listener when the component unmounts
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
-
 
   return (
     <>
@@ -80,18 +79,25 @@ export default function Header() {
               alt="logo_small"
               className="logo_small"
             />
-            <button onClick={(e)=>SmoothScrollTo(e,"#catalog")} className="link" >
-              Каталог
-            </button>
-            {/* <button onClick={(e)=>SmoothScrollTo(e,"#photo") } className="link" >
-              Фото
-            </button> */}
-            <button onClick={(e)=>SmoothScrollTo(e,"#about-us") } className="link">
-              О&nbsp;нас
-            </button>
-            <button onClick={(e)=>SmoothScrollTo(e,"main") } className="link" >
-              Контакты
-            </button>
+            {pages.map((page) =>
+              page.scrolled ? (
+                <>
+                  <button
+                    onClick={(e) => SmoothScrollTo(e, page.path)}
+                    className="link"
+                  >
+                    {page.name}
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link to={page.path} className="link">
+                    {page.name}
+                  </Link>
+                </>
+              )
+            )}
+            
           </div>
           <div id="container_c">
             <Link to="/cart/" className="cart">

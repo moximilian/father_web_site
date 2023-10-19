@@ -15,6 +15,7 @@ header {
   padding-top: 15px;
   padding-left: 30px;
   padding-bottom: 10px;
+  padding-right:25px;
   content: "1";
   height: 65px;
   display: flex;
@@ -58,7 +59,7 @@ header {
 }
 .cart {
   padding: 10px;
-  margin-right: 25px;
+  /* margin-right: 25px; */
   background-color: #ffdc60;
   color: #303336;
   border-radius: 15px;
@@ -100,11 +101,9 @@ header {
 @media screen and (max-width: 1000px) {
   .cart {
     position:fixed;
-
-    top: 93%;
+    top: 95%;
     left:1%;
     z-index: 1000;
-
     text-align: center;
     padding: 10px;
     margin-right: 15px;
@@ -112,7 +111,27 @@ header {
     color: #303336;
     border-radius: 15px;
     text-decoration: none;
-    width: 95vw;
+    width: calc(94vw - 5px);
+    height: 20px;
+    border: 2px solid transparent;
+    overflow: hidden;
+    z-index: 1;
+  }
+}
+@media screen and (max-width: 600px) {
+  .cart {
+    position:fixed;
+    top: 92%;
+    left:1%;
+    z-index: 1000;
+    text-align: center;
+    padding: 10px;
+    margin-right: 15px;
+    background-color: #ffdc60;
+    color: #303336;
+    border-radius: 15px;
+    text-decoration: none;
+    width: calc(94vw - 15px);
     height: 20px;
     border: 2px solid transparent;
     overflow: hidden;
