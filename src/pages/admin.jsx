@@ -1,19 +1,30 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import {
   getAdmin,
   addNewItem,
   getAllProducts,
-  changeItem,
   deleteItemFromDB,
   addNewProm,
+  createNew,
+  changeNew,
   getAllPromotions,
+  delNew,
+  getAllNews,
   changePromotion,
   deletePromFromDB,
 } from "../server/firebase_server";
 import { firebaseConfig } from "../server/firebase_server";
 import { initializeApp } from "firebase/app";
-import { getStorage, ref, uploadBytes, listAll, deleteObject } from "firebase/storage";
+import ScrollButton from "../components/ScrollButton";
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  listAll,
+  deleteObject,
+} from "firebase/storage";
 import "./admin.css";
 import { getFirestore } from "firebase/firestore/lite";
 export default function Admin() {
@@ -24,6 +35,7 @@ export default function Admin() {
   const [pass, setPass] = useState("");
   const [products, setProducts] = useState([]);
   const [promotions, setPromotions] = useState([]);
+  const [news, setNews] = useState([]);
   const [file, setFile] = useState(null);
 
   const app = initializeApp(firebaseConfig);
@@ -38,6 +50,10 @@ export default function Admin() {
       setProducts(prod);
       const prom = await getAllPromotions(db);
       setPromotions(prom);
+      const news = await getAllNews(db);
+      setNews(news);
+      localStorage.setItem("user_name", JSON.stringify(name));
+      localStorage.setItem("user_pass", JSON.stringify(pass));
     }
   };
   const updatePage = async () => {
@@ -56,7 +72,8 @@ export default function Admin() {
     setPass(value);
   };
 
-  const productsToShow = products;
+  var productsToShow = products;
+  // const [productsToShow, SetproductsToShow] = useState(products);
   // var prodoctsGroups = products.slice(startIndex, endIndex);
   var prodoctsGroups;
   prodoctsGroups = products.reduce((unique, product) => {
@@ -70,7 +87,7 @@ export default function Admin() {
   const logout = () => {
     setIsLoggedIn(false);
     setSelectedImage(null);
-    // navigate('/')
+    navigate("/");
   };
 
   function blobToString(blob) {
@@ -128,6 +145,12 @@ export default function Admin() {
     await addNewProm(db, new_name, new_date, new_desc, base64String, new_id);
     updatePage();
   };
+  const addNEWNEW = async (e, new_name, new_date, new_desc, base64String) => {
+    const new_id = news.length + 1;
+    await createNew(db, new_name, new_date, new_desc, base64String, new_id);
+    updatePage();
+  };
+
   const createNewProduct = async (e) => {
     e.preventDefault();
     var new_name = document.getElementById("new_name")?.value;
@@ -143,6 +166,20 @@ export default function Admin() {
         console.log(error);
       });
   };
+  const createNewNew = async (e) => {
+    //news_title news_date news_desc
+    e.preventDefault();
+    var news_title = document.getElementById("news_title")?.value;
+    var news_date = document.getElementById("news_date")?.value;
+    var news_desc = document.getElementById("news_desc")?.value;
+    blobToString(selectedImage)
+      .then((base64String) => {
+        addNEWNEW(e, news_title, news_date, news_desc, base64String);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const createNewPromotion = async (e) => {
     e.preventDefault();
     var new_name = document.getElementById("new_prom_name")?.value;
@@ -150,7 +187,6 @@ export default function Admin() {
     var new_desc = document.getElementById("new_prom_desc")?.value;
     blobToString(selectedImage)
       .then((base64String) => {
-        // setBase4String(base64String)
         addNEWPROM(e, new_name, new_date, new_desc, base64String);
       })
       .catch((error) => {
@@ -164,31 +200,14 @@ export default function Admin() {
   };
   const deleteProm = async (e, old_prom) => {
     e.preventDefault();
-    console.log(old_prom);
     await deletePromFromDB(db, old_prom);
     updatePage();
   };
-  const changeData = async (e, product_id, old_prod) => {
+  const deleteNew = async (e, old_news) =>{
     e.preventDefault();
-    var new_name = document.getElementById(`name_no${product_id}`)?.value;
-    var new_price = document.getElementById(`price_no${product_id}`)?.value;
-    var new_desc = document.getElementById(`desc_no${product_id}`)?.value;
-    var new_group = document.getElementById(`group_no${product_id}`)?.value;
-    if (new_name === "") {
-      new_name = old_prod.name;
-    }
-    if (new_price === "") {
-      new_price = old_prod.price;
-    }
-    if (new_desc === "") {
-      new_desc = old_prod.description;
-    }
-    if (new_group === "") {
-      new_group = old_prod.group;
-    }
-    await changeItem(db, new_name, new_group, new_price, new_desc, old_prod.id);
+    await delNew(db, old_news);
     updatePage();
-  };
+  }
   const changePromotionData = async (e, product_id, old_prod) => {
     e.preventDefault();
     var new_name = document.getElementById(`name_prom_no${product_id}`)?.value;
@@ -204,6 +223,26 @@ export default function Admin() {
       new_desc = old_prod.description;
     }
     await changePromotion(db, new_name, new_date, new_desc, old_prod.id);
+    updatePage();
+    alert('Акция именена!')
+  };
+
+  const changeNewData = async (e, new_id, old_new) => {
+    //title_new_no date_new_no desc_new_no
+    var new_title = document.getElementById(`title_new_no${new_id}`)?.value;
+    var new_date = document.getElementById(`date_new_no${new_id}`)?.value;
+    var new_desc = document.getElementById(`desc_new_no${new_id}`)?.value;
+    if (new_title === "") {
+      new_title = old_new.name;
+    }
+    if (new_date === "") {
+      new_date = old_new.date;
+    }
+    if (new_desc === "") {
+      new_desc = old_new.description;
+    }
+    await changeNew(db,new_title,new_date,new_desc,old_new.id);
+    alert('Новость именена!')
     updatePage();
   };
 
@@ -245,11 +284,41 @@ export default function Admin() {
     e.preventDefault();
     await deleteObject(ref(storage, file_name));
     getFileList(storage);
+  };
+  const checkAuth = async (password, username) => {
+    const result = await getAdmin(db);
+    console.log(password);
 
+    if (result[0]?.pass === password && result[0]?.username === username) {
+      setIsLoggedIn(true);
+      console.log(result[0]?.pass);
+      const prod = await getAllProducts(db);
+      setProducts(prod);
+      const prom = await getAllPromotions(db);
+      setPromotions(prom);
+      const news = await getAllNews(db);
+      setNews(news);
+    }
+  };
+  const SmoothScrollTo = (e, path) => {
+    e.preventDefault();
+    document.querySelector(path).scrollIntoView({
+      behavior: "smooth",
+    });
   };
   useEffect(() => {
     getFileList(storage);
-  },[]);
+
+    const user_name_LS = JSON.parse(localStorage.getItem("user_name"));
+    const user_pass_LS = JSON.parse(localStorage.getItem("user_pass"));
+    if (user_name_LS !== null && user_pass_LS !== null) {
+      checkAuth(user_pass_LS, user_name_LS);
+    }
+  }, []);
+  function removeHtmlTags(input) {
+    const regex = /<[^>]+>/g;
+    return input.replace(regex, "");
+  }
 
   return (
     <>
@@ -286,19 +355,43 @@ export default function Admin() {
               <button className="admin_submit" onClick={() => updatePage()}>
                 Обновить
               </button>
+              <button
+                onClick={(e) => SmoothScrollTo(e, "#catalog")}
+                className="link"
+              >
+                {"Каталог"}
+              </button>
+              <button
+                onClick={(e) => SmoothScrollTo(e, "#promotions")}
+                className="link"
+              >
+                {"Акции"}
+              </button>
+              <button
+                onClick={(e) => SmoothScrollTo(e, "#news")}
+                className="link"
+              >
+                {"Новости"}
+              </button>
             </div>
           </div>
           <>
+            <ScrollButton />
             <div id="xlsx-files">
               <h1>Загрузка прайс листов</h1>
               <div className="item_container_">
                 <div className="download">
                   <input
                     type="file"
-                    accept=".xlsx, .xls"
+                    accept=".xlsx, .xls, .pdf, .docx, .doc, .docm"
                     onChange={handleXLSXChange}
                   />
-                  <button className="admin_submit" onClick={(e) => handleXLSXUpload(e)}>Загрузить файл</button>
+                  <button
+                    className="admin_submit"
+                    onClick={(e) => handleXLSXUpload(e)}
+                  >
+                    Загрузить файл
+                  </button>
                 </div>
               </div>
               <div className="item_container_">
@@ -323,7 +416,7 @@ export default function Admin() {
                   onSubmit={(e) => createNewProduct(e)}
                   encType="multipart/form-data"
                 >
-                  <div className="product_ small">
+                  <div className="product_one small">
                     {selectedImage ? (
                       <img
                         className="catalog-image_"
@@ -343,14 +436,14 @@ export default function Admin() {
                       placeholder="Новое название "
                     />
                     <input
-                      id="new_price"
-                      className="admin_prod_input"
-                      placeholder="Новая цена"
-                    />
-                    <input
                       id="new_group"
                       className="admin_prod_input"
                       placeholder="Группа"
+                    />
+                    <input
+                      id="new_price"
+                      className="admin_prod_input"
+                      placeholder="Новая цена"
                     />
                     <textarea
                       id="new_desc"
@@ -365,7 +458,7 @@ export default function Admin() {
                   </div>
                 </form>
                 {productsToShow.map((product) => (
-                  <form onSubmit={(e) => changeData(e, product.id, product)}>
+                  <Link to={"/item-change?id=" + product.id} className="link">
                     <div key={product.id} className="product_">
                       <img
                         src={"data:image/jpg;base64," + product.image}
@@ -373,53 +466,24 @@ export default function Admin() {
                         className="catalog-image_"
                       />
                       <div className="flex-col">
-                        <div className="bold-small no-border">
-                          {product.name}
-                        </div>
-                        <input
-                          id={`name_no${product.id}`}
-                          className="admin_prod_input"
-                          placeholder="новое название"
-                        />
+                        <div className="description-small">{product.name}</div>
                       </div>
 
                       <div className="flex-col">
-                        <div className="bold-small no-border">
-                          {product.group}
-                        </div>
-                        <input
-                          id={`group_no${product.id}`}
-                          className="admin_prod_input"
-                          placeholder="новая группа"
-                        />
+                        <div>{product.group}</div>
                       </div>
 
                       <div className="flex-col">
-                        <div className="no-border">{product.price}</div>
-                        <input
-                          id={`price_no${product.id}`}
-                          className="admin_prod_input"
-                          placeholder="новая цена"
-                        />
+                        <div>{product.price}</div>
                       </div>
                       <div>
                         <div className="flex-row">
-                          <textarea
-                            className="admin_prod_input_area no-border"
-                            value={product.description}
-                          />
-                          <textarea
-                            id={`desc_no${product.id}`}
-                            className="admin_prod_input_area"
-                            placeholder="новое описание"
-                          />
+                          <div className="description-small">
+                            {removeHtmlTags(product.description.slice(0, 50))}
+                            ...
+                          </div>
                         </div>
                       </div>
-                      <input
-                        className="admin_submit"
-                        type="submit"
-                        value="Изменить"
-                      />
                       <button
                         onClick={(e) => deleteProd(e, product.id)}
                         className="admin_submit_delete"
@@ -427,7 +491,7 @@ export default function Admin() {
                         Удалить
                       </button>
                     </div>
-                  </form>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -438,7 +502,7 @@ export default function Admin() {
                   onSubmit={(e) => createNewPromotion(e)}
                   encType="multipart/form-data"
                 >
-                  <div className="product_ small">
+                  <div className="product_one small">
                     {selectedImage ? (
                       <img
                         className="catalog-image_"
@@ -457,15 +521,15 @@ export default function Admin() {
                       className="admin_prod_input"
                       placeholder="Новое название "
                     />
-                    <textarea
-                      id="new_prom_desc"
-                      className="admin_prod_input_area"
-                      placeholder="Новое описание"
-                    />
                     <input
                       id="new_prom_date"
                       className="admin_prod_input"
                       placeholder="Новое время акции "
+                    />
+                    <textarea
+                      id="new_prom_desc"
+                      className="admin_prod_input_area"
+                      placeholder="Новое описание"
                     />
                     <input
                       className="admin_submit"
@@ -480,40 +544,34 @@ export default function Admin() {
                       changePromotionData(e, product.id, product)
                     }
                   >
-                    <div key={product.id} className="product_">
+                    <div key={product.id} className="product_one">
                       <img
                         src={"data:image/jpg;base64," + product.image}
                         alt=""
                         className="catalog-image_"
                       />
                       <div className="flex-col">
-                        <div className="bold-small no-border">
-                          {product.name}
-                        </div>
-                        <input
+                        <textarea
                           id={`name_prom_no${product.id}`}
                           className="admin_prod_input"
-                          placeholder="новое название акции"
+                          defaultValue={product.name}
+                          cols={"50"}
                         />
                       </div>
                       <div className="flex-col">
-                        <div className="no-border">{product.date}</div>
-                        <input
+                        <textarea
                           id={`date_prom_no${product.id}`}
                           className="admin_prod_input"
-                          placeholder="новое время акции"
+                          defaultValue={product.date}
+                          cols={"30"}
                         />
                       </div>
                       <div>
                         <div className="flex-row">
                           <textarea
-                            className="admin_prod_input_area no-border"
-                            value={product.description}
-                          />
-                          <textarea
                             id={`desc_prom_no${product.id}`}
                             className="admin_prod_input_area"
-                            placeholder="новое описание"
+                            defaultValue={product.description}
                           />
                         </div>
                       </div>
@@ -532,6 +590,100 @@ export default function Admin() {
                   </form>
                 ))}
               </div>
+            </div>
+            <div id="news">
+              <h1>Новости</h1>
+              <div className="item_container_">
+                <form
+                  onSubmit={(e) => createNewNew(e)}
+                  encType="multipart/form-data"
+                >
+                  <div className="product_one small">
+                    {selectedImage ? (
+                      <img
+                        className="catalog-image_"
+                        src={URL.createObjectURL(selectedImage)}
+                        alt="Uploaded"
+                      />
+                    ) : (
+                      <input
+                        id="fileupload"
+                        type="file"
+                        onChange={handleImageUpload}
+                      />
+                    )}
+                    <textarea
+                      id="news_title"
+                      className="admin_prod_input"
+                      placeholder="Название новости"
+                      cols={"30"}
+                    />
+                    <input
+                      id="news_date"
+                      className="admin_prod_input"
+                      placeholder="Дата новости"
+                    />
+                    <textarea
+                      id="news_desc"
+                      className="admin_prod_input_area"
+                      placeholder="Описание новости"
+                    />
+                    <input
+                      className="admin_submit"
+                      type="submit"
+                      value="Создать"
+                    />
+                  </div>
+                </form>
+              </div>
+              {news.map((New) => (
+                <>
+                  <form onSubmit={(e) => changeNewData(e, New.id, New)}>
+                    <div key={New.id} className="product_one">
+                      <img
+                        src={"data:image/jpg;base64," + New.image}
+                        alt=""
+                        className="catalog-image_"
+                      />
+                      <div className="flex-col">
+                        <textarea
+                          id={`title_new_no${New.id}`}
+                          className="admin_prod_input"
+                          defaultValue={New.title}
+                          cols={"50"}
+                        />
+                        </div>
+                        <div className="flex-col">
+
+                        <input
+                          id={`date_new_no${New.id}`}
+                          className="admin_prod_input"
+                          defaultValue={New.date}
+                          cols={"50"}
+                        />
+                        </div>
+                        <div className="flex-col">
+                        <textarea
+                          id={`desc_new_no${New.id}`}
+                          className="admin_prod_input"
+                          defaultValue={New.description}
+                          cols={"50"}
+                        />
+                        </div>
+                        <input
+                          className="admin_submit"
+                          type="submit"
+                          value="Изменить"
+                        />
+                        <button
+                          onClick={(e) => deleteNew(e, New.id)}
+                          className="admin_submit_delete"
+                        >Удалить</button>
+                      
+                    </div>
+                  </form>
+                </>
+              ))}
             </div>
           </>
         </div>

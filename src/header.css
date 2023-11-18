@@ -13,7 +13,7 @@ header {
 
 .header-container {
   padding-top: 15px;
-  padding-left: 30px;
+  padding-left: 10px;
   padding-bottom: 10px;
   padding-right:25px;
   content: "1";
@@ -43,15 +43,34 @@ header {
   width: 100%;
   transition: 500ms;
 }
+.main-link{
+  color: #acada7;
+  text-decoration: none;
+  outline: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  border:1px solid #ffdc60;
+  border-radius: 5px;
+  padding: 5px;
+  transition:0.7s;
 
+}
+.main-link:hover{
+  background-color: #252729;
+  transition:0.7s;
+  }
 .links {
   display: flex;
   flex-direction: row;
   gap: 10px;
+  background-color: transparent;
   flex-wrap: nowrap;
   justify-content: flex-start;
   align-items: center;
 }
+
 
 #container_c{
   display:inline-block;

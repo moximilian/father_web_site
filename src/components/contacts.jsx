@@ -21,7 +21,6 @@ export default function Contacts() {
   };
   const handleConatcts = (e) => {
     e.preventDefault();
-    console.log('!');
     setButtonsShown(!isButtonsShown);
 
   };
@@ -29,15 +28,23 @@ export default function Contacts() {
   //   e.preventDefault();
   //   setButtonsShown(true);
   // };
+  useEffect(()=>{
+    const contacts = document.getElementById('contacnts')
+    // contacts.
+    if(window.location.href.search('item')!==-1){
+      contacts.style = 'width:450px'
+    }
+  },[])
 
   const Buttons = () => {
     return (
       <div 
-      className={`contacts_icons ${isButtonsShown ? 'hidden' : 'created'}`}
+      // className={`contacts_icons ${isButtonsShown ? 'hidden' : 'created'}`}
+      className='contacts_icons'
       // onAnimationEnd={(e)=>handleConatcts(e)}
 
       >
-        <a href="mailto:ImpulsServiceCentre@yandex.ru&body=Новый_Заказ">
+        <a href="mailto:ImpulsServiceCentre@yandex.ru&body=Новый_Заказ" style={{left:"10px", position:"relative"}}>
           <Email />
         </a>
         <a href="https://t.me/+79854361331">
@@ -65,10 +72,8 @@ export default function Contacts() {
         <button onClick={() => togglePhone()} className="contact no_bg">
           Показать номер
         </button>
-        <button onClick={(e) => handleConatcts(e)} className="contact no_bg">
-          Написать
-        </button>
         <Buttons />
+        
         <div ref={phoneRef}>{isPhoneShown ? <PhoneNumber /> : <></>}</div>
       </div>
     </>

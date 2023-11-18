@@ -30,7 +30,8 @@ export default function Item() {
         ? document.width
         : document.body.offsetWidth + "px";
     // main.height;
-    note.style.height =  document.height !== undefined
+    note.style.height =
+      document.height !== undefined
         ? document.height
         : document.body.offsetHeight + "px";
   };
@@ -54,7 +55,7 @@ export default function Item() {
     var old_count;
 
     for (let i = 0; i < itemsInCart[1]?.length; i++) {
-      if (itemsInCart[1][i]?.id !== product_id ) {
+      if (itemsInCart[1][i]?.id !== product_id) {
         old_fields.push(itemsInCart[1][i]);
       }
       if (itemsInCart[1][i]?.id === product_id) {
@@ -86,17 +87,16 @@ export default function Item() {
       payload: old_fields,
     });
   };
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState([]);
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
-  useEffect(()=>{
-    const FetchData = async () =>{
+  useEffect(() => {
+    const FetchData = async () => {
       const prod = await getAllProducts(db);
-      setProducts(prod)
-    }
-    FetchData()
-  
-  },[db])
+      setProducts(prod);
+    };
+    FetchData();
+  }, [db]);
   let [searchParams, setSearchParams] = useSearchParams();
   const product_id = searchParams.get("id");
   const product = products.find(
@@ -105,11 +105,7 @@ export default function Item() {
 
   return (
     <>
-      <Header
-        pages={[
-          { name: "Главная", scrolled: false, path: "/" },
-        ]}
-      />
+      <Header pages={[{ name: "Главная", scrolled: false, path: "/" }]} />
       <div id="dim"></div>
       <div className="main-thing">
         <div className="main-container">
@@ -122,10 +118,16 @@ export default function Item() {
           {product ? (
             <>
               <div className="product-one">
-                <img className="image-item" src={"data:image/jpg;base64," + product.image } alt={product.name} />
+                <img
+                  className="image-item"
+                  src={"data:image/jpg;base64," + product.image}
+                  alt={product.name}
+                />
                 <div className="product-texting">
                   <div className="grey-text">{product.group}</div>
-                  <h1><td dangerouslySetInnerHTML={{__html: product.name}} /></h1>
+                  <h1>
+                    <td dangerouslySetInnerHTML={{ __html: product.name }} />
+                  </h1>
                   <h1 className="bold">{product.price}₽</h1>
                   {getCountById(product.id) === 0 ? (
                     <button
@@ -176,8 +178,26 @@ export default function Item() {
 
               <div className="desc">
                 <h1>Описание</h1>
-                <td dangerouslySetInnerHTML={{__html: product.description}} />
+                <td dangerouslySetInnerHTML={{ __html: product.description }} />
               </div>
+              {(product.manif !== "" || product.size !== "") && (
+                <div className="desc">
+                  <h1>Характеристики</h1>
+                  {product.manif !== "" && (
+                    <div className="items-row">
+                      Производитель:
+                      <td dangerouslySetInnerHTML={{ __html: product.manif }} />
+                    </div>
+                  )}
+                  {product.size !== "" && (
+                    <div className="items-row">
+                      Габариты:
+                      <td dangerouslySetInnerHTML={{ __html: product.size }} />
+                    </div>
+                  )}
+                </div>
+              )}
+
               <h1>Контакты</h1>
               <Contacts />
             </>

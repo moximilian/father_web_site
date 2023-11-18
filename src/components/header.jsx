@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-export default function Header({pages}) {
+export default function Header({ pages }) {
   const itemsInCart = useSelector((state) => state.itemsInCart);
 
   const [itemCount, setItemCount] = useState();
@@ -74,11 +74,14 @@ export default function Header({pages}) {
       <header>
         <div className="header-container">
           <div className="links">
-            <img
-              src="./images/logo.png"
-              alt="logo_small"
-              className="logo_small"
-            />
+            <Link to="/" className="main-link">
+              <img
+                src="./images/logo.png"
+                alt="logo_small"
+                className="logo_small"
+              />
+              SkillMarket
+            </Link>
             {pages.map((page) =>
               page.scrolled ? (
                 <>
@@ -86,18 +89,17 @@ export default function Header({pages}) {
                     onClick={(e) => SmoothScrollTo(e, page.path)}
                     className="link"
                   >
-                    {page.name}
+                    <td dangerouslySetInnerHTML={{ __html: page.name }} />
                   </button>
                 </>
               ) : (
                 <>
                   <Link to={page.path} className="link">
-                    {page.name}
+                    <td dangerouslySetInnerHTML={{ __html: page.name }} />
                   </Link>
                 </>
               )
             )}
-            
           </div>
           <div id="container_c">
             <Link to="/cart/" className="cart">

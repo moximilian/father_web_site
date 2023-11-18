@@ -19,51 +19,17 @@ export default function Promotions() {
     FetchData();
   }, [db]);
   const [currentSlide, setCurrentSlide] = useState(1);
-  function createBlurredBackground(imageElement, containerElement) {
-    const canvas = document.createElement("canvas");
-    const context = canvas.getContext("2d");
-
-    // Set canvas dimensions to match the image
-    canvas.width = imageElement.width;
-    canvas.height = imageElement.height;
-
-    // Draw the image onto the canvas
-    context.drawImage(imageElement, 0, 0);
-
-    // Apply blur effect to the canvas
-    context.filter = "blur(10px)";
-
-    // Scale the canvas to fit the container
-    const scale = Math.max(
-      containerElement.offsetWidth / canvas.width,
-      containerElement.offsetHeight / canvas.height
-    );
-    canvas.width *= scale;
-    canvas.height *= scale;
-
-    // Convert the canvas to a data URL
-    const dataUrl = canvas.toDataURL();
-
-    // Set the data URL as the background image of the container
-    // containerElement.backgroundImage = `url(${dataUrl})`;
-    containerElement.style.setProperty("background-image", `url(${dataUrl})`);
-  }
   const nextSlide = () => {
     setCurrentSlide((currentSlide + 1) % images.length);
-
-    const imageElement = document.getElementById("slider-image");
-    const containerElement = document.getElementById("container");
-    console.log(imageElement, containerElement);
-    createBlurredBackground(imageElement, containerElement);
   };
 
   const prevSlide = () => {
     setCurrentSlide((currentSlide - 1 + images.length) % images.length);
-    const imageElement = document.getElementById("slider-image");
-    const containerElement = document.getElementById("container");
-    createBlurredBackground(imageElement, containerElement);
   };
 
+  setTimeout(()=> {
+    nextSlide()
+}, 5000);
   return (
     <>
       <div id="promotions">

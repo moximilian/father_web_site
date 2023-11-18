@@ -23,10 +23,7 @@ export default function CatalogPage() {
   return (
     <>
       <Header
-        pages={[
-          { name: "Главная", scrolled: false, path: "/" },
-          { name: "Каталог", scrolled: false, path: "/catalog/" },
-        ]}
+        pages={[{ name: `О&nbsp;нас`, scrolled: false, path: "/about" }]}
       />
       <Catalog products={products} />
       <Footer />

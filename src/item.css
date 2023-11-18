@@ -39,6 +39,30 @@
 a{
     text-decoration: none;
 }
+.bold-small-item{
+    font-size: 32px;
+    font-weight: 700;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+.price{
+    font-size: 42px;
+    font-weight: 700;
+    width:150px;
+    margin-top: 50px;
+}
+.asubmit{
+    background-color: rgb(14, 220, 58);
+    border: none;
+    outline: none;
+    color:white;
+    height:50px;
+    font-size: 30px;
+    border-radius: 15px;
+    margin-top: 30px;
+}
+.asubmit:hover, .asubmit:active{
+    background-color: rgb(14, 220, 58);
+}
 @media screen and (max-width: 1000px) {
     .product-one {
         padding-top: 50px;
@@ -58,6 +82,6 @@ a{
 }
 @media screen and (max-width: 600px) {
     .main-container {
-        width: 85vw;
+        width: 95vw;
     }
 }
