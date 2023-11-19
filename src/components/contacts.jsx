@@ -22,29 +22,30 @@ export default function Contacts() {
   const handleConatcts = (e) => {
     e.preventDefault();
     setButtonsShown(!isButtonsShown);
-
   };
   // const handleAnimationEnd = (e) => {
   //   e.preventDefault();
   //   setButtonsShown(true);
   // };
-  useEffect(()=>{
-    const contacts = document.getElementById('contacnts')
+  useEffect(() => {
+    const contacts = document.getElementById("contacnts");
     // contacts.
-    if(window.location.href.search('item')!==-1){
-      contacts.style = 'width:450px'
+    if (window.location.href.search("item") !== -1) {
+      contacts.style = "width:450px";
     }
-  },[])
+  }, []);
 
   const Buttons = () => {
     return (
-      <div 
-      // className={`contacts_icons ${isButtonsShown ? 'hidden' : 'created'}`}
-      className='contacts_icons'
-      // onAnimationEnd={(e)=>handleConatcts(e)}
-
+      <div
+        // className={`contacts_icons ${isButtonsShown ? 'hidden' : 'created'}`}
+        className="contacts_icons"
+        // onAnimationEnd={(e)=>handleConatcts(e)}
       >
-        <a href="mailto:ImpulsServiceCentre@yandex.ru&body=Новый_Заказ" style={{left:"10px", position:"relative"}}>
+        <a
+          href="mailto:ImpulsServiceCentre@yandex.ru&body=Новый_Заказ"
+          style={{ left: "10px", position: "relative" }}
+        >
           <Email />
         </a>
         <a href="https://t.me/+79854361331">
@@ -73,7 +74,7 @@ export default function Contacts() {
           Показать номер
         </button>
         <Buttons />
-        
+
         <div ref={phoneRef}>{isPhoneShown ? <PhoneNumber /> : <></>}</div>
       </div>
     </>

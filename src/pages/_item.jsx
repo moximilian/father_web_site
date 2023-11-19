@@ -2,36 +2,21 @@ import { useSearchParams, Link } from "react-router-dom";
 import Header from "../components/header";
 import Footer from "../components/footer";
 import { useNavigate } from "react-router";
-
 import "../item.css";
-import Contacts from "../components/contacts";
-import useComponentVisible from "../hooks/useComponentVisible";
-import TimeTable from "../components/timetable";
 import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-// import { firebaseConfig } from "../server/firebase_server";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore/lite";
-// import { getAllProducts } from "../server/firebase_server";
 import {
-  getAdmin,
-  addNewItem,
   firebaseConfig,
   getAllProducts,
   changeItem,
-  deleteItemFromDB,
-  addNewProm,
-  getAllPromotions,
-  changePromotion,
-  deletePromFromDB,
 } from "../server/firebase_server";
 import { ReactComponent as ArrowLeft } from "../images/icons/arrow-left.svg";
 
 export default function ItemInAdmin() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
-  const [product, setProduct] = useState() 
+  const [product, setProduct] = useState();
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
   useEffect(() => {
@@ -40,14 +25,15 @@ export default function ItemInAdmin() {
       setProducts(prod);
     };
     FetchData();
+  }, []);
+  useEffect(() => {
     const product_id = searchParams.get("id");
-      const product_l = products.find(
-        (product_to) => product_to.id === parseInt(product_id)
-      );
-      setProduct(product_l)
+    const product_l = products.find(
+      (product_to) => product_to.id === parseInt(product_id)
+    );
+    setProduct(product_l);
   }, [products]);
   let [searchParams, setSearchParams] = useSearchParams();
-  
 
   useEffect(() => {
     const user_name_LS = JSON.parse(localStorage.getItem("user_name"));
@@ -56,21 +42,23 @@ export default function ItemInAdmin() {
       navigate("/");
     }
   }, []);
-  const [additionalFieldsCount, setAdditionalFieldsCount] = useState(0)
-  const createNewProp = (e, prod_id) =>{
-    e.preventDefault()
-    const desc = document.getElementById('description')
-    const input1 = document.createElement('input')
-    setAdditionalFieldsCount(additionalFieldsCount+1)
-    input1.setAttribute('id','field_name_no'+additionalFieldsCount)
-    const input2 = document.createElement('input')
-    setAdditionalFieldsCount(additionalFieldsCount+1)
-    input2.setAttribute('id','field_name_no'+additionalFieldsCount)
+  const [additionalFieldsCount, setAdditionalFieldsCount] = useState(0);
+  const createNewProp = (e) => {
+    e.preventDefault();
+    const desc = document.getElementById("description");
+    const input1 = document.createElement("input");
+    const div = document.createElement("div");
 
-    desc.appendChild(input1)
-    desc.appendChild(input2)
+    setAdditionalFieldsCount(additionalFieldsCount + 1);
+    input1.setAttribute("id", "field_name_no" + additionalFieldsCount);
+    const input2 = document.createElement("input");
+    input2.setAttribute("id", "field_value_no" + additionalFieldsCount);
 
-  }
+    div.appendChild(input1);
+    div.appendChild(input2);
+
+    desc.appendChild(div);
+  };
 
   const changeData = async (e, product_id, old_prod) => {
     e.preventDefault();
@@ -80,6 +68,15 @@ export default function ItemInAdmin() {
     var new_group = document.getElementById(`group_no${product_id}`)?.value;
     var new_size = document.getElementById(`size_no${product_id}`)?.value;
     var new_manif = document.getElementById(`manif_no${product_id}`)?.value;
+
+    var data = [];
+    for (let i = 0; i < additionalFieldsCount; i++) {
+      var field_name = document.getElementById(`field_name_no${i}`)?.value;
+      var field_value = document.getElementById(`field_value_no${i}`)?.value;
+      var obj = {};
+      obj[field_name] = field_value;
+      data.push(obj);
+    }
 
     if (new_name === "") {
       new_name = old_prod.name;
@@ -99,12 +96,13 @@ export default function ItemInAdmin() {
     if (new_manif === "") {
       new_manif = old_prod.manif;
     }
-    if(typeof new_size === 'undefined'){
-      new_size = ' ';
+    if (typeof new_size === "undefined") {
+      new_size = " ";
     }
-    if(typeof new_manif === 'undefined'){
-      new_manif = ' ';
+    if (typeof new_manif === "undefined") {
+      new_manif = " ";
     }
+
     try {
       await changeItem(
         db,
@@ -114,11 +112,12 @@ export default function ItemInAdmin() {
         new_desc,
         new_size,
         new_manif,
+        JSON.stringify(data),
         old_prod.id
       );
       alert("Данные успешно обновились!");
     } catch (err) {
-      console.log(err)
+      console.log(err);
       alert("Произошла ошибка");
     }
   };
@@ -200,14 +199,31 @@ export default function ItemInAdmin() {
                     }}
                   />
                 </div>
-                <div className="desc" >
-                  
+                <div className="desc">
                   <h1>Характеристики</h1>
-                  <button onClick={(e)=>createNewProp(e, product.id)}>
+                  <button onClick={(e) => createNewProp(e)}>
                     Добавить поле
-                  </button><br></br>
-                  <div id='description'>
-
+                  </button>
+                  <br></br>
+                  <div id="description">
+                    {product.data ? (
+                      JSON.parse(product?.data)?.map((value, index) => {
+                        return (
+                          <div>
+                            <input
+                              defaultValue={Object.keys(value)[0]}
+                              id={"field_name_no" + index}
+                            ></input>
+                            <input
+                              defaultValue={Object.values(value)[0]}
+                              id={"field_value_no" + index}
+                            ></input>
+                          </div>
+                        );
+                      })
+                    ) : (
+                      <></>
+                    )}
                   </div>
                   Производитель:{" "}
                   <input

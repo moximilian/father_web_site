@@ -21,8 +21,9 @@ export default function New() {
       setNews(news);
     };
     FetchData();
+  }, []);
+  useEffect(() => {
     const new_id = searchParams.get("id");
-    console.log(new_id)
     const New_l = news.find((new_to) => new_to.id === parseInt(new_id));
     setNew(New_l);
   }, [news]);

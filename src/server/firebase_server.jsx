@@ -9,12 +9,13 @@ import {
   limit,
   getDocs,
 } from "firebase/firestore/lite";
-import {} from "firebase/firestore/lite";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
+//father congig
 export const firebaseConfig = {
   apiKey: "AIzaSyAK4cDCixWowzCo-1354Mhg5RqU-i6X8YU",
   authDomain: "house-of-dream-d101b.firebaseapp.com",
@@ -24,6 +25,16 @@ export const firebaseConfig = {
   appId: "1:799520998278:web:9ae3b625386e7d1c4ce207",
   measurementId: "G-1HMM55QZJ8",
 };
+
+//test config
+// export const firebaseConfig = {
+//   apiKey: "AIzaSyC9XULCVoZAvoukeyXRxYcW26fnUq4c0WA",
+//   authDomain: "shop-5cb91.firebaseapp.com",
+//   projectId: "shop-5cb91",
+//   storageBucket: "shop-5cb91.appspot.com",
+//   messagingSenderId: "848143579453",
+//   appId: "1:848143579453:web:961ed6d9a18fc2c5296d54",
+// };
 
 // Initialize Firebase
 
@@ -54,23 +65,24 @@ export async function getAllNews(db) {
 export async function getSomeNews(db, limit_l, offset) {
   const first = query(collection(db, "news"), limit(limit_l));
   const documentSnapshots = await getDocs(first);
-  const lastVisible = documentSnapshots.docs[offset];
-  const next = query(
-    collection(db, "news"),
-    startAfter(lastVisible),
-    limit(limit_l)
-  );
-  // Apply pagination using limit and offset
+  if (documentSnapshots.docs.length > 0) {
+    const lastVisible = documentSnapshots.docs[offset];
+    const next = query(
+      collection(db, "news"),
+      startAfter(lastVisible),
+      limit(limit_l)
+    );
+    const page = await getDocs(next);
+    const pageList = page.docs.map((doc) => doc.data());
+    return pageList;
+  }
 
-  const page = await getDocs(next);
+  // Apply pagination using limit and offset
 
   if (offset === 0) {
     const pageList = documentSnapshots.docs.map((doc) => doc.data());
     return pageList;
   }
-
-  const pageList = page.docs.map((doc) => doc.data());
-  return pageList;
 }
 
 export async function addNewItem(db, name, new_group, price, desc, image, id) {
@@ -113,7 +125,7 @@ export async function changeItem(
   desc,
   size,
   manif,
- 
+  data,
   id
 ) {
   await updateDoc(doc(db, "products", "product_id=" + id), {
@@ -123,7 +135,7 @@ export async function changeItem(
     description: desc,
     size: size,
     manif: manif,
-    
+    data: data,
     id: id,
   });
 }

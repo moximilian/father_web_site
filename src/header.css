@@ -15,7 +15,7 @@ header {
   padding-top: 15px;
   padding-left: 10px;
   padding-bottom: 10px;
-  padding-right:25px;
+  padding-right: 25px;
   content: "1";
   height: 65px;
   display: flex;
@@ -38,12 +38,13 @@ header {
   text-decoration: none;
   outline: none;
   background-color: transparent;
-  border:none;
+  border: none;
   font-size: 18px;
   width: 100%;
   transition: 500ms;
 }
-.main-link{
+
+.main-link {
   color: #acada7;
   text-decoration: none;
   outline: none;
@@ -51,16 +52,18 @@ header {
   flex-direction: row;
   align-items: center;
   gap: 5px;
-  border:1px solid #ffdc60;
+  border: 1px solid #ffdc60;
   border-radius: 5px;
   padding: 5px;
-  transition:0.7s;
+  transition: 0.7s;
 
 }
-.main-link:hover{
+
+.main-link:hover {
   background-color: #252729;
-  transition:0.7s;
-  }
+  transition: 0.7s;
+}
+
 .links {
   display: flex;
   flex-direction: row;
@@ -72,10 +75,11 @@ header {
 }
 
 
-#container_c{
-  display:inline-block;
-  height:30px;
+#container_c {
+  display: inline-block;
+  height: 30px;
 }
+
 .cart {
   padding: 10px;
   /* margin-right: 25px; */
@@ -89,18 +93,19 @@ header {
   overflow: hidden;
   z-index: 1;
 }
+
 .cart-after {
   z-index: 2;
   position: relative;
 
-  bottom:45px;
-  left:65px;
+  bottom: 45px;
+  left: 65px;
   background-color: red;
   border-radius: 15px;
   color: white;
   text-align: center;
 
-  width:fit-content;
+  width: fit-content;
   block-size: fit-content;
 }
 
@@ -117,11 +122,12 @@ header {
   height: 40px;
   border-radius: 5px;
 }
+
 @media screen and (max-width: 1000px) {
   .cart {
-    position:fixed;
+    position: fixed;
     top: 95%;
-    left:1%;
+    left: 1%;
     z-index: 1000;
     text-align: center;
     padding: 10px;
@@ -137,11 +143,12 @@ header {
     z-index: 1;
   }
 }
+
 @media screen and (max-width: 600px) {
   .cart {
-    position:fixed;
+    position: fixed;
     top: 92%;
-    left:1%;
+    left: 1%;
     z-index: 1000;
     text-align: center;
     padding: 10px;

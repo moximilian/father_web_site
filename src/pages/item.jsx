@@ -88,6 +88,7 @@ export default function Item() {
     });
   };
   const [products, setProducts] = useState([]);
+  const [product, setProduct] = useState();
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
   useEffect(() => {
@@ -96,12 +97,15 @@ export default function Item() {
       setProducts(prod);
     };
     FetchData();
-  }, [db]);
+  }, []);
   let [searchParams, setSearchParams] = useSearchParams();
-  const product_id = searchParams.get("id");
-  const product = products.find(
-    (product_to) => product_to.id === parseInt(product_id)
-  );
+  useEffect(() => {
+    const product_id = searchParams.get("id");
+    const product_l = products.find(
+      (product_to) => product_to.id === parseInt(product_id)
+    );
+    setProduct(product_l);
+  }, [products]);
 
   return (
     <>
@@ -139,17 +143,17 @@ export default function Item() {
                   ) : (
                     <div className="buttons_add_del">
                       <button
-                        onClick={() => handleItemsInCart(product.id, "add")}
-                        className="btn-product small"
-                      >
-                        <b>+</b>
-                      </button>
-                      {getCountById(product.id)}
-                      <button
                         onClick={() => handleItemsInCart(product.id, "del")}
                         className="btn-product small"
                       >
                         <b>-</b>
+                      </button>
+                      {getCountById(product.id)}
+                      <button
+                        onClick={() => handleItemsInCart(product.id, "add")}
+                        className="btn-product small"
+                      >
+                        <b>+</b>
                       </button>
                     </div>
                   )}
@@ -179,24 +183,22 @@ export default function Item() {
               <div className="desc">
                 <h1>Описание</h1>
                 <td dangerouslySetInnerHTML={{ __html: product.description }} />
-              </div>
-              {(product.manif !== "" || product.size !== "") && (
-                <div className="desc">
-                  <h1>Характеристики</h1>
-                  {product.manif !== "" && (
-                    <div className="items-row">
-                      Производитель:
-                      <td dangerouslySetInnerHTML={{ __html: product.manif }} />
-                    </div>
-                  )}
-                  {product.size !== "" && (
-                    <div className="items-row">
-                      Габариты:
-                      <td dangerouslySetInnerHTML={{ __html: product.size }} />
-                    </div>
+                <h1>Характеристики</h1>
+                <div id="description">
+                  {product.data ? (
+                    JSON.parse(product?.data).map((value, index) => {
+                      return (
+                        <div className="flex-row">
+                          <div>{Object.keys(value)[0]}</div>:
+                          <div>{Object.values(value)[0]}</div>
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <></>
                   )}
                 </div>
-              )}
+              </div>
 
               <h1>Контакты</h1>
               <Contacts />

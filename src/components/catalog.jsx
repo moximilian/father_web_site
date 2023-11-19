@@ -42,21 +42,6 @@ export default function Catalog({ products }) {
     const regex = /<[^>]+>/g;
     return input.replace(regex, "");
   }
-  // const app = initializeApp(firebaseConfig);
-  // const storage = getStorage(app, "gs://house-of-dream-d101b.appspot.com");
-  // const downloadfile = (e, file_name) => {
-  //   e.preventDefault();
-  //   getDownloadURL(ref(storage, file_name + ".xlsx"))
-  //     .then((url) => {
-  //       const link = document.createElement("a");
-  //       link.href = url;
-  //       link.download = file_name + ".xlsx";
-  //       link.click();
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
   const handleItemsInCart = (product_id, operator, isFirstAdd = false) => {
     var old_fields = [{}];
     var old_count;
@@ -172,27 +157,24 @@ export default function Catalog({ products }) {
             </div>
             <div className="item_container">
               {productsToShow.map((product) => (
-                <Link to={"/item?id=" + product.id}>
                 <div key={product.id} className="product">
-                  
+                  <Link to={"/item?id=" + product.id} className="column-flex">
                     <img
                       src={"data:image/jpg;base64," + product.image}
                       alt={product.name}
                       className="catalog-image"
                     />
-                  
-                  
+
                     <div>
                       <div className="bold-small">{product.name}</div>
                     </div>
-                 
 
-                  <b>{product.price}₽</b>
-                  <div className="grey-text">
-                    {/* <td dangerouslySetInnerHTML={{__html: product.description.slice(0, 50)}} /> */}
-                    {removeHtmlTags(product.description.slice(0, 50))}...
-                  </div>
-
+                    <b>{product.price}₽</b>
+                    <div className="grey-text">
+                      {/* <td dangerouslySetInnerHTML={{__html: product.description.slice(0, 50)}} /> */}
+                      {removeHtmlTags(product.description.slice(0, 50))}...
+                    </div>
+                  </Link>
                   {getCountById(product.id) === 0 ? (
                     <button
                       onClick={() => handleItemsInCart(product.id, "add", true)}
@@ -201,7 +183,7 @@ export default function Catalog({ products }) {
                       <b>В корзину</b>
                     </button>
                   ) : (
-                    <div className="buttons_add_del">
+                    <div className="buttons_add_del column-flex">
                       <button
                         onClick={() => handleItemsInCart(product.id, "del")}
                         className="btn-product small"
@@ -218,7 +200,6 @@ export default function Catalog({ products }) {
                     </div>
                   )}
                 </div>
-                </Link>
               ))}
               {products.length === 0 ? (
                 <>

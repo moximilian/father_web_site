@@ -9,10 +9,7 @@ import ItemInAdmin from './pages/_item'
 import About from './pages/about'
 import Admin from './pages/admin'
 import New from './pages/new'
-
 import CatalogPage from './pages/catalogPage'
-
-
 function App() {
   return (
     <>

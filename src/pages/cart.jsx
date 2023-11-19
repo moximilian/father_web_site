@@ -10,23 +10,27 @@ import { useDispatch } from "react-redux";
 import { firebaseConfig } from "../server/firebase_server";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
-import { getAdmin, addNewItem, getAllProducts, changeItem } from "../server/firebase_server";
+import {
+  getAdmin,
+  addNewItem,
+  getAllProducts,
+  changeItem,
+} from "../server/firebase_server";
 export default function Cart() {
   const dispatch = useDispatch();
   const itemsInCart = useSelector((state) => state.itemsInCart);
 
   const [sumAll, setSumAll] = useState();
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState([]);
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
-  useEffect(()=>{
-    const FetchData = async () =>{
+  useEffect(() => {
+    const FetchData = async () => {
       const prod = await getAllProducts(db);
-      setProducts(prod)
-    }
-    FetchData()
-  
-  },[db])
+      setProducts(prod);
+    };
+    FetchData();
+  }, []);
   const idsToSelect = itemsInCart[1]?.map((product) => product.id);
   const filteredProducts = products?.filter((product) =>
     idsToSelect?.includes(product.id)
@@ -137,7 +141,7 @@ export default function Cart() {
                       <div className="small-pic">
                         <img
                           className="small-pic"
-                          src={"data:image/jpg;base64," + product.image }
+                          src={"data:image/jpg;base64," + product.image}
                           alt={product.name}
                         />
                       </div>
@@ -168,7 +172,6 @@ export default function Cart() {
                               >
                                 <b>-</b>
                               </button>
-
                             </div>
                           ) : (
                             <div className="buttons_add_del">
@@ -193,24 +196,31 @@ export default function Cart() {
                           )}
                         </div>
                       </div>
-                      <div className='summ_of_item_delete_all'>
+                      <div className="summ_of_item_delete_all">
                         {product.price * getCountById(product.id)}₽
-                        <button onClick={()=>handleItemsInCart(product.id,'erase')} className = 'btn-product small red'>Удалить</button>
+                        <button
+                          onClick={() => handleItemsInCart(product.id, "erase")}
+                          className="btn-product small red"
+                        >
+                          Удалить
+                        </button>
                       </div>
                     </div>
                   </>
                 ))}
-              {products.length === 0 && (<>
-                <div className="items-row">
-                  <div className="small-pic fake-prod-image"></div>
-                  <div className="product-info">
+              {products.length === 0 && (
+                <>
+                  <div className="items-row">
+                    <div className="small-pic fake-prod-image"></div>
+                    <div className="product-info">
                       <div className="fake"></div>
                       <div className="fake"></div>
                       <div className="fake"></div>
+                    </div>
                   </div>
-                </div>
-              </> )}
-               
+                </>
+              )}
+
               <div className="line-large"></div>
               <div className="summary">
                 <h3>Итого </h3>
@@ -218,7 +228,7 @@ export default function Cart() {
               </div>
             </div>
           </div>
-          <FormSubmit />
+          <FormSubmit products={products} />
         </div>
       </div>
       <Footer />

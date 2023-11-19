@@ -8,7 +8,6 @@ export default function MainPage() {
         pages={[
           { name: "Каталог", scrolled: false, path: "/catalog/" },
           { name: `О&nbsp;нас`, scrolled: false, path: "/about" },
-          
         ]}
       />
       <Main />

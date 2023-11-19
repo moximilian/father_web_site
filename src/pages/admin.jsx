@@ -203,11 +203,11 @@ export default function Admin() {
     await deletePromFromDB(db, old_prom);
     updatePage();
   };
-  const deleteNew = async (e, old_news) =>{
+  const deleteNew = async (e, old_news) => {
     e.preventDefault();
     await delNew(db, old_news);
     updatePage();
-  }
+  };
   const changePromotionData = async (e, product_id, old_prod) => {
     e.preventDefault();
     var new_name = document.getElementById(`name_prom_no${product_id}`)?.value;
@@ -224,7 +224,7 @@ export default function Admin() {
     }
     await changePromotion(db, new_name, new_date, new_desc, old_prod.id);
     updatePage();
-    alert('Акция именена!')
+    alert("Акция именена!");
   };
 
   const changeNewData = async (e, new_id, old_new) => {
@@ -241,8 +241,8 @@ export default function Admin() {
     if (new_desc === "") {
       new_desc = old_new.description;
     }
-    await changeNew(db,new_title,new_date,new_desc,old_new.id);
-    alert('Новость именена!')
+    await changeNew(db, new_title, new_date, new_desc, old_new.id);
+    alert("Новость именена!");
     updatePage();
   };
 
@@ -251,12 +251,10 @@ export default function Admin() {
   };
   const handleXLSXUpload = (e) => {
     e.preventDefault();
-    console.log(file);
     if (file) {
       const storageRef = ref(storage, file.name);
       uploadBytes(storageRef, file)
         .then((snapshot) => {
-          console.log("uploaded a blob or file!");
           alert(`Файл ${file.name} был добавлен в базу данных успешно`);
           getFileList(storage);
         })
@@ -275,7 +273,6 @@ export default function Admin() {
         return files_arr.push(file?.name);
       });
       setCreatedFileLists(files_arr);
-      console.log(files_arr);
     } catch (err) {
       console.log(err);
     }
@@ -287,11 +284,8 @@ export default function Admin() {
   };
   const checkAuth = async (password, username) => {
     const result = await getAdmin(db);
-    console.log(password);
-
     if (result[0]?.pass === password && result[0]?.username === username) {
       setIsLoggedIn(true);
-      console.log(result[0]?.pass);
       const prod = await getAllProducts(db);
       setProducts(prod);
       const prom = await getAllPromotions(db);
@@ -652,34 +646,34 @@ export default function Admin() {
                           defaultValue={New.title}
                           cols={"50"}
                         />
-                        </div>
-                        <div className="flex-col">
-
+                      </div>
+                      <div className="flex-col">
                         <input
                           id={`date_new_no${New.id}`}
                           className="admin_prod_input"
                           defaultValue={New.date}
                           cols={"50"}
                         />
-                        </div>
-                        <div className="flex-col">
+                      </div>
+                      <div className="flex-col">
                         <textarea
                           id={`desc_new_no${New.id}`}
                           className="admin_prod_input"
                           defaultValue={New.description}
                           cols={"50"}
                         />
-                        </div>
-                        <input
-                          className="admin_submit"
-                          type="submit"
-                          value="Изменить"
-                        />
-                        <button
-                          onClick={(e) => deleteNew(e, New.id)}
-                          className="admin_submit_delete"
-                        >Удалить</button>
-                      
+                      </div>
+                      <input
+                        className="admin_submit"
+                        type="submit"
+                        value="Изменить"
+                      />
+                      <button
+                        onClick={(e) => deleteNew(e, New.id)}
+                        className="admin_submit_delete"
+                      >
+                        Удалить
+                      </button>
                     </div>
                   </form>
                 </>

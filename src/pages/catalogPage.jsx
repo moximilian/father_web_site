@@ -19,7 +19,7 @@ export default function CatalogPage() {
       setProducts(prod);
     };
     FetchData();
-  }, [db]);
+  }, []);
   return (
     <>
       <Header

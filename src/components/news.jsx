@@ -16,43 +16,45 @@ export default function News() {
   }
   useEffect(() => {
     const FetchData = async () => {
-      const news = await getSomeNews(db, 6, 0);
+      const news = await getSomeNews(db, 12, 0);
       setNews(news);
     };
     FetchData();
   }, []);
   return (
     <>
-     
-        
-        <div className="main-container">
-          <div id="news">
+      <div className="main-container">
+        <div id="news">
           <h1>Наши новости</h1>
-            <div className="new_container">
-            
-              {news.map((New) => (
-                <>
-                  <Link to={"/new?id=" + New.id} style={{textDecoration:'none', outline:'none', color:'black'}}>
-                    <div key={New.id} className="new_item">
-                      <img
-                        src={"data:image/jpg;base64," + New.image}
-                        alt={New.name}
-                        className="new-image"
-                      />
-                      <div className="new_text">
-                        <div className="grey-text"> {New.date}</div>
-                        <td dangerouslySetInnerHTML={{ __html: New.title }} />
-                         {removeHtmlTags(New.description).slice(0,45) }
-                        
-                      </div>
+          <div className="new_container">
+            {news.map((New) => (
+              <>
+                <Link
+                  to={"/new?id=" + New.id}
+                  style={{
+                    textDecoration: "none",
+                    outline: "none",
+                    color: "black",
+                  }}
+                >
+                  <div key={New.id} className="new_item">
+                    <img
+                      src={"data:image/jpg;base64," + New.image}
+                      alt={New.name}
+                      className="new-image"
+                    />
+                    <div className="new_text">
+                      <div className="grey-text"> {New.date}</div>
+                      <td dangerouslySetInnerHTML={{ __html: New.title }} />
+                      {removeHtmlTags(New.description).slice(0, 45)}
                     </div>
-                  </Link>
-                </>
-              ))}
-            </div>
+                  </div>
+                </Link>
+              </>
+            ))}
           </div>
         </div>
-      
+      </div>
     </>
   );
 }

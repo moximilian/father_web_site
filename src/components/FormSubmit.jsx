@@ -1,12 +1,10 @@
-import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import * as yup from "yup";
 import { schema } from "./validation";
-import products from "../products.json";
 import SendMessageToTG from "../hooks/telegram_send";
 import Inputmask from "inputmask";
-export default function FormSubmit() {
+export default function FormSubmit({products}) {
   const itemsInCart = useSelector((state) => state.itemsInCart);
   const [Name, setName] = useState("");
   const [Email, setEmail] = useState("");
@@ -27,13 +25,14 @@ export default function FormSubmit() {
 
   const [submissionCounter, setSubmissionCounter] = useState(0);
   const [submissionTimestamps, setSubmissionTimestamps] = useState([]);
-  // console.log(filteredProducts.find((p)=>p?.id === 1).name)
-
   const result = itemsInCart[1]?.map((item) => ({
-    name: filteredProducts?.find((p) => Number(p?.id) === Number(item?.id))?.name,
+    name: filteredProducts?.find((p) => Number(p?.id) === Number(item?.id))
+      ?.name,
     count: item?.count,
   }));
-  const cleanedResult = result?.filter((item) =>Object?.values(item)?.every((value) => value !== undefined));
+  const cleanedResult = result?.filter((item) =>
+    Object?.values(item)?.every((value) => value !== undefined)
+  );
   //   const result ='';
 
   const handleChangeName = (e) => {
@@ -50,11 +49,9 @@ export default function FormSubmit() {
           ...prev,
           name: "",
         }));
-        console.log("good", value);
       })
       .catch((errors) => {
         setIsValidName(false);
-        console.log("bad");
         setErrors((prev) => ({
           ...prev,
           name: errors.errors,
@@ -172,7 +169,9 @@ export default function FormSubmit() {
     );
   }, [submissionCounter, submissionTimestamps]);
 
-  const tableHtml = `${cleanedResult?.map((row) => `${row.name} --- ${row.count}шт\n`).join("")}`;
+  const tableHtml = `${cleanedResult
+    ?.map((row) => `${row.name} --- ${row.count}шт\n`)
+    .join("")}`;
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -210,14 +209,6 @@ export default function FormSubmit() {
         formData.order !== "undefined"
       ) {
         const isSent = SendMessageToTG(formData);
-        // if (isSent) {
-        //   setIsSubmited(true);
-        // } else {
-        //   setErrors({ name: "", phone: "", email: "Ошибка отправки формы, повторите позднее" });
-        //   setIsSubmited(false);
-        //   return
-        // }
-        // console.log(cleanedResult);
         setIsSubmited(true);
         document.getElementById("form").reset();
       } else {
@@ -240,7 +231,6 @@ export default function FormSubmit() {
         </div>
       </div>
       <div className="form-container">
-        
         <form
           action="#"
           onSubmit={handleFormSubmit}
@@ -249,10 +239,10 @@ export default function FormSubmit() {
           id="form"
         >
           {isSubmited === true && (
-          <div className="success">
-            Успешно! В близжайшее время мы с вами свяжемся!
-          </div>
-        )}
+            <div className="success">
+              Успешно! В близжайшее время мы с вами свяжемся!
+            </div>
+          )}
           <input
             className={errors.name || isSubmited === false ? "error" : "input"}
             name="name"
@@ -275,7 +265,7 @@ export default function FormSubmit() {
             value={Phone}
           />
           {errors.phone || isSubmited === false ? (
-            <div className=".input_err">{errors.phone}</div>
+            <div className="input_err">{errors.phone}</div>
           ) : (
             <></>
           )}
@@ -290,7 +280,7 @@ export default function FormSubmit() {
           />
 
           {errors.email || isSubmited === false ? (
-            <div className=".input_err">{errors.email}</div>
+            <div className="input_err">{errors.email}</div>
           ) : (
             <></>
           )}
@@ -320,7 +310,6 @@ export default function FormSubmit() {
           данных на условиях Политики конфиденциальности и организацией,
           оказывающей услуги, для целей бронирования услуг.
         </div>
-        
       </div>
     </>
   );

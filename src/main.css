@@ -301,8 +301,9 @@ a {
 
 @media screen and (max-width: 1650px) {
     #contacnts {
-        width:307px;
+        width: 307px;
     }
+
     .contacts_icons {
         display: flex;
         flex-direction: row;
@@ -315,10 +316,12 @@ a {
         border-radius: 15px;
     }
 }
+
 @media screen and (max-width: 1480px) {
-    .bold{
+    .bold {
         font-size: 3em;
     }
+
     #contacnts {
         margin: 15px 0;
         display: flex;
@@ -329,12 +332,14 @@ a {
         height: fit-content;
         width: 100%;
     }
+
     .no_bg {
         border: none;
         /* outline: none; */
         height: 100%;
         width: 100%;
     }
+
     .order {
         text-align: center;
         padding: 10px;
@@ -347,11 +352,11 @@ a {
         block-size: fit-content;
         border: 2px solid transparent;
     }
-    
+
 }
 
 @media screen and (max-width: 1032px) {
-   
+
 
     .contact {
         text-align: center;
@@ -366,9 +371,9 @@ a {
         transition: 500ms;
     }
 
-    
 
-    
+
+
 
     .timetable {
         position: fixed;

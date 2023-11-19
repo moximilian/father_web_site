@@ -4,15 +4,13 @@ export default function About() {
   return (
     <>
       <Header
-        pages={[
-          { name: "Каталог", scrolled: false, path: "/catalog/" },
-        ]}
+        pages={[{ name: "Каталог", scrolled: false, path: "/catalog/" }]}
       />
       <main>
         <div id="dim"></div>
         <div className="main-container">
           <div id="about-us">
-          <h1>О нас</h1>
+            <h1>О нас</h1>
             Основная задача нашей компании решить уже имеющиеся проблемы наших
             партнеров, да именно партнеров, а главное сделать все что бы не
             допустить их возникновение, с этой целью запускается пилотный проект

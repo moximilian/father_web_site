@@ -17,7 +17,7 @@ export default function Promotions() {
       slider.style.backgroundColor = 'transparent';
     };
     FetchData();
-  }, [db]);
+  }, []);
   const [currentSlide, setCurrentSlide] = useState(1);
   const nextSlide = () => {
     setCurrentSlide((currentSlide + 1) % images.length);
