@@ -146,7 +146,12 @@ export default function Admin() {
     updatePage();
   };
   const addNEWNEW = async (e, new_name, new_date, new_desc, base64String) => {
-    const new_id = news.length + 1;
+    const keys = Object.groupBy(news, (NEW) => NEW.id);
+    const key_arr_str = Object.keys(keys);
+    const result = key_arr_str.map((x) => {
+      return parseInt(x);
+    });
+    const new_id = Math.max(...result) + 1;
     await createNew(db, new_name, new_date, new_desc, base64String, new_id);
     updatePage();
   };

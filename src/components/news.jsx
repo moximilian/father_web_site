@@ -3,7 +3,7 @@ import "../catalog.css";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore/lite";
 import { firebaseConfig } from "../server/firebase_server";
-import { getSomeNews } from "../server/firebase_server";
+import { getAllNews } from "../server/firebase_server";
 import { Link } from "react-router-dom";
 
 export default function News() {
@@ -16,7 +16,7 @@ export default function News() {
   }
   useEffect(() => {
     const FetchData = async () => {
-      const news = await getSomeNews(db, 12, 0);
+      const news = await getAllNews(db);
       setNews(news);
     };
     FetchData();
