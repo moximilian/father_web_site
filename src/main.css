@@ -300,9 +300,6 @@ a {
 }
 
 @media screen and (max-width: 1650px) {
-    #contacnts {
-        width: 307px;
-    }
 
     .contacts_icons {
         display: flex;

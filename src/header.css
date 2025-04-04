@@ -126,17 +126,17 @@ header {
 @media screen and (max-width: 1000px) {
   .cart {
     position: fixed;
-    top: 95%;
-    left: 1%;
+    top: calc(100% - 55px);
+    left: 0;
     z-index: 1000;
     text-align: center;
     padding: 10px;
-    margin-right: 15px;
+    margin:10px;
     background-color: #ffdc60;
     color: #303336;
     border-radius: 15px;
     text-decoration: none;
-    width: calc(94vw - 5px);
+    width: calc(100% - 55px);
     height: 20px;
     border: 2px solid transparent;
     overflow: hidden;

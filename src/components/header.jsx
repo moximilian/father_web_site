@@ -8,7 +8,7 @@ export default function Header({ pages }) {
   const [itemCount, setItemCount] = useState();
   const addCartCouner = () => {
     const cart_counter = document.getElementById("cart-counter");
-    cart_counter.style.padding = "0 7px 2px 5px";
+    cart_counter.style.width = `${20 * `${itemCount}`.length * 0.75}px`;
     // cart_counter.style.width = "12.5px";
     cart_counter.style.backgroundColor = "red";
     cart_counter.innerHTML = itemCount;
